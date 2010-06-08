@@ -3,60 +3,14 @@ Orange
 
 Orange is intended to be a middle ground between the simplicity of Sinatra 
 and the power of Rails. Orange is being developed by Orange Sparkle Ball, inc
-for our own use. Our main focus is on creating a super-extensible CMS
-with Orange, but we're trying to make the components as reusable as possible. Our
-intention is to be ready to use Orange for most client website builds by
-May 2010. 
+for our own use. 
+
+orange-core represents the core dependencies for orange applications. If you want
+a full featured Orange-based CMS, we're working on splitting that into the Sparkles
+project.
 
 **Note**: Orange is still in the alpha stage. Test coverage is lack-luster at best. 
 Tread carefully.
-
-A (Theoretical) Example of Orange
-=================================
-
-_This doesn't actually work quite yet, but it's the goal we're working toward._
-
-After installing the orange gem, create an 'app.rb'
-
-**app.rb:**
-
-    require 'rubygems'
-    require 'orange'
-    class App < Orange::Application
-    end
-
-You now have an Orange CMS that can be made by calling "App.app". 
-Put this line in your rackup file...
-
-**config.ru:**
-
-    require 'app'
-    run App.app
-
-Run rack however you run rack. 
-
-Look at that, a full fledged CMS in 6 lines! Not so impressive, it's all prebuilt, 
-right? The real question is how hard is it to customize?
-
-I want my pages to have more than just titles and bodies. I want sidebars...
-
-**app.rb:**
-
-    require 'rubygems'
-    require 'orange'
-    class App < Orange::Application
-    end
-    class Orange::Page
-       markdown :sidebar, :context => [:front]
-    end
-
-We now have a sidebar that anybody can see. The backend scaffolding will adapt to allow 
-editing, and the front end will print it out for each page. Slap some CSS on it to make it 
-look like a sidebar, and tada! 
-
-Pages now have sidebars, in three lines of code and some
-styling. No migrations (we rely on DataMapper's auto_upgrade functionality), no extra
-files (unless we want them).
 
 More Info
 =========
@@ -64,10 +18,10 @@ More Info
 Orange Philosophy
 -----------------
 The Orange application framework is intended to be a fully customizable CMS
-capable of hosting multiple sites while maintaining Sinatra-like ease of 
+capable of hosting sites while maintaining Sinatra-like ease of 
 programming. Some core ideas behind Orange:
 
-* Scaffolding doesn't have to be replaced if it's smart enough (most of the time)
+* We believe in magic - as long as it's not the evil kind
 * Put as much functionality into middleware as possible, so it can be easily reused
   and remixed
 * Give middleware a little more power so it's useful enough to handle more tasks
@@ -75,23 +29,33 @@ programming. Some core ideas behind Orange:
 
 Should I Use Orange?
 --------------------
-Not right now, unless you want to write half the framework yourself.
 
+    "I want to create a quick RESTful web service that does one thing and does it well"
 
-When it's finished, would I want to use it?
--------------------------------------------
-Depends on what you're looking for. Orange has a middleware stack intended to 
-be reused. If the stack has something you'd like, you could theoretically
-put the middleware stack on top of Sinatra or Rails. (This hasn't actually
-been tested yet.)
+No. Use Sinatra for this kind of thing. It's perfect for creating quick web apps based on RESTful
+ideals. Or perhaps use a Sinatra clone built on Orange, so you can incorporate orange plugins... 
+but such a clone doesn't exist (yet).
 
-The full Orange application framework is intended to run
-as an easily extensible CMS. We tend to think that having lots of tests
-and full MVC separation just so you can add an extra type of page to the CMS 
-is a bit overkill. We designed this to replace ModX in our web builds for clients. 
+    "I want to create a powerful web application that needs to be rock solid and use a 
+    well-tested foundation"
+
+No. This is where Ruby on Rails shines, it's a well supported, thoroughly tested framework
+for building web applications that gives you everything you need for the lifecycle of your
+application
+
+    "I want to deploy a website on Ruby that has some dynamic elements, maybe allowing me
+    to create parts of the page in a plugin if necessary."
+    
+Yes. This is what orange was designed for - we're building it to be able to quickly deploy
+websites that can have a Ruby base without the heavy-weight Ruby on Rails backend, but without
+feeling like you have to start from scratch like it feels in Sinatra.
+
 
 Required Gems
 -------------
+
+To be updated... (this is full list for orange-core and orange-more, we're looking to minimize 
+orange-core dependencies).
 
 * dm-core (+ do_[sqlite3|mysql|...] )
 * dm-more
