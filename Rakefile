@@ -16,11 +16,11 @@ end
 
 
 Jeweler::Tasks.new do |gemspec|
-  gemspec.name = "orange"
+  gemspec.name = "orange-core"
   gemspec.summary = "Middle ground between Sinatra and Rails"
   gemspec.description = "Orange is a Ruby framework for building managed websites with code as simple as Sinatra"
   gemspec.email = "therabidbanana@gmail.com"
-  gemspec.homepage = "http://github.com/therabidbanana/orange"
+  gemspec.homepage = "http://github.com/therabidbanana/orange-core"
   gemspec.authors = ["David Haslem"]
   gemspec.files = FileList['lib/**/*']
   gemspec.test_files = FileList['spec/**/*.rb']
