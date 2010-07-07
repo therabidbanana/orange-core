@@ -1,4 +1,5 @@
 require 'orange-core/middleware/base'
+
 module Orange::Middleware
   
   class Database < Base
