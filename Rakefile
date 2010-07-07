@@ -35,7 +35,8 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.post_install_message = <<-DOC
 ===========================================
 Note: 
-orange-core requires DataMapper to function. Please make sure to install
+orange-core requires DataMapper to function. dm-core has been installed,
+but please make sure you also have installed the 
 the appropriate DataMapper adapter for your system:
 
 $ gem install [dm-adapter]
