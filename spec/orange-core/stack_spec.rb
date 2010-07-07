@@ -127,7 +127,7 @@ describe Orange::Stack do
     x.app
     x.app
     c2.should_receive(:fire).with(:stack_loaded, anything()).exactly(3).times
-    c2.should_receive(:fire).with(:stack_reloading, anything()).twice
+    c2.should_receive(:fire).with(:stack_reloading, anything()).exactly(3).times
     x2.app
     x2.app
     x2.app

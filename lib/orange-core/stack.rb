@@ -1,5 +1,7 @@
 require 'orange-core/core'
 require 'rack/builder'
+require 'rack/abstract_format'
+
 module Orange
   # Builds an orange stack of middleware
   # Use in the rackup file as follows:

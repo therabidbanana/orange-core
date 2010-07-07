@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'rack/abstract_format'
 
 class MockApplication < Orange::Application
   
