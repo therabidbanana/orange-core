@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Haslem"]
-  s.date = %q{2010-07-07}
+  s.date = %q{2010-07-08}
   s.description = %q{Orange is a Ruby framework for building managed websites with code as simple as Sinatra}
   s.email = %q{therabidbanana@gmail.com}
   s.extra_rdoc_files = [
@@ -56,6 +56,21 @@ Gem::Specification.new do |s|
      "lib/orange-core/views/not_found/404.haml"
   ]
   s.homepage = %q{http://github.com/therabidbanana/orange-core}
+  s.post_install_message = %q{===========================================
+Note: 
+orange-core requires DataMapper to function. dm-core has been installed,
+but please make sure you also have installed the 
+the appropriate DataMapper adapter for your system:
+
+$ gem install [dm-adapter]
+
+Mysql:    dm-mysql-adapter
+Sqlite:   dm-sqlite-adapter
+Postgres: dm-postgres-adapter
+
+orange-core install complete.
+===========================================
+}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
@@ -105,6 +120,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<crack>, [">= 0"])
       s.add_runtime_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<dm-migrations>, [">= 1.0.0"])
+      s.add_runtime_dependency(%q<rack-abstract-format>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rack-test>, [">= 0"])
     else
@@ -113,6 +129,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<crack>, [">= 0"])
       s.add_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
+      s.add_dependency(%q<rack-abstract-format>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rack-test>, [">= 0"])
     end
@@ -122,6 +139,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<crack>, [">= 0"])
     s.add_dependency(%q<dm-core>, [">= 1.0.0"])
     s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
+    s.add_dependency(%q<rack-abstract-format>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rack-test>, [">= 0"])
   end
