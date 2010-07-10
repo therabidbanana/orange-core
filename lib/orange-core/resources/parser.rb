@@ -74,7 +74,7 @@ module Orange
         
         haml_engine = Haml::Engine.new(string)
         if packet_binding.is_a? Orange::Packet
-          packet_binding['parser.haml-templates']["#{context}-#{resource}-#{file}"] = haml_engine
+          packet_binding['parser.haml-templates', {}]["#{context}-#{resource}-#{file}"] = haml_engine
         end
       end
       out = haml_engine.render(packet_binding, opts, &block)
