@@ -1,6 +1,5 @@
 require 'orange-core/core'
 require 'rack/builder'
-require 'rack/abstract_format'
 
 module Orange
   # Builds an orange stack of middleware
@@ -127,9 +126,7 @@ module Orange
       stack Orange::Middleware::Loader
       stack Orange::Middleware::Rerouter, opts.dup
       stack Orange::Middleware::Static, opts.dup
-      use Rack::AbstractFormat unless opts[:no_abstract_format] 
-          # Must be used before non-destructive route altering done by Orange,
-          # since all orange stuff is non-destructive
+      stack Orange::Middleware::AbstractFormat unless opts[:no_abstract_format] 
       stack Orange::Middleware::RouteSite, opts.dup
       stack Orange::Middleware::RouteContext, opts.dup
       stack Orange::Middleware::Database
