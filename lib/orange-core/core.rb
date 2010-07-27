@@ -1,4 +1,5 @@
 require 'dm-core'
+require 'extlib/mash'
 require 'dm-migrations'
 require 'rack'
 require 'rack/builder'
@@ -64,7 +65,7 @@ module Orange
     # This method calls afterLoad when it is done. Subclasses can override
     # the afterLoad method for initialization needs.
     def initialize(*args, &block)
-      @options = Options.new(*args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS)
+      @options = Mash.new(Options.new(*args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS))
       @resources = {}
       @application = false
       @stack = false
