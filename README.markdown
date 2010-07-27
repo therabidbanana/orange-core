@@ -9,8 +9,7 @@ orange-core represents the core dependencies for orange applications. If you wan
 a full featured Orange-based CMS, we're working on splitting that into the Sparkles
 project.
 
-**Note**: Orange is still in the alpha stage. Test coverage is lack-luster at best. 
-Tread carefully.
+**Note**: Orange is still in a "beta" stage. Test coverage is lack-luster at best. The library is being used on a few currently live (low traffic) sites, so it might be stable enough to use on your own projects let us know if you have issues.
 
 More Info
 =========
@@ -32,7 +31,7 @@ Should I Use Orange?
 
     "I want to create a quick RESTful web service that does one thing and does it well"
 
-No. Use Sinatra for this kind of thing. It's perfect for creating quick web apps based on RESTful
+Sinatra is probably better for this kind of thing. It's perfect for creating quick web apps based on RESTful
 ideals. Or perhaps use a Sinatra clone built on Orange, so you can incorporate orange plugins... 
 but such a clone doesn't exist (yet).
 
