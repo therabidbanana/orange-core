@@ -139,6 +139,19 @@ describe Orange::Core do
     c.options.should_not have_key(:opt_3)
   end
   
+  it "should have a mash options hash" do
+    c= Orange::Core.new(:opt_1 => true){ opt_2 true }
+    c.options.should be_an_instance_of(Mash)
+    c.options[:opt_1].should == true
+    c.options[:opt_2].should == true
+    c.options["opt_1"].should == true
+    c.options["opt_2"].should == true
+    c.options.should have_key(:opt_1)
+    c.options.should have_key("opt_1")
+    c.options.should_not have_key(:opt_3)
+    c.options.should_not have_key("opt_3")
+  end
+  
   it "should load a resource when passed resource instance" do
     c= Orange::Core.new
     c.load(MockResource.new, :mock_one)
@@ -225,7 +238,7 @@ describe Orange::Core do
   end
   
   it "should have an options hash" do
-    Orange::Core.new.options.should be_an_instance_of(Hash)
+    Orange::Core.new.options.should be_a_kind_of(Hash)
   end
   
   it "should allow access to the resources via []" do
