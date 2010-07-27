@@ -29,7 +29,6 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.add_dependency('crack', ">= 0")
   gemspec.add_dependency('dm-core', '>= 1.0.0')
   gemspec.add_dependency('dm-migrations', '>= 1.0.0')
-  gemspec.add_dependency('rack-abstract-format', '>= 0')
   gemspec.add_development_dependency "rspec", ">= 0"
   gemspec.add_development_dependency "rack-test", ">= 0"
   gemspec.post_install_message = <<-DOC

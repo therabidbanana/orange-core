@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{orange-core}
-  s.version = "0.6.0"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Haslem"]
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "lib/orange-core/carton.rb",
      "lib/orange-core/core.rb",
      "lib/orange-core/magick.rb",
+     "lib/orange-core/middleware/abstract_format.rb",
      "lib/orange-core/middleware/base.rb",
      "lib/orange-core/middleware/database.rb",
      "lib/orange-core/middleware/four_oh_four.rb",
@@ -120,7 +121,6 @@ orange-core install complete.
       s.add_runtime_dependency(%q<crack>, [">= 0"])
       s.add_runtime_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<dm-migrations>, [">= 1.0.0"])
-      s.add_runtime_dependency(%q<rack-abstract-format>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rack-test>, [">= 0"])
     else
@@ -129,7 +129,6 @@ orange-core install complete.
       s.add_dependency(%q<crack>, [">= 0"])
       s.add_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
-      s.add_dependency(%q<rack-abstract-format>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rack-test>, [">= 0"])
     end
@@ -139,7 +138,6 @@ orange-core install complete.
     s.add_dependency(%q<crack>, [">= 0"])
     s.add_dependency(%q<dm-core>, [">= 1.0.0"])
     s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
-    s.add_dependency(%q<rack-abstract-format>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rack-test>, [">= 0"])
   end
