@@ -8,6 +8,12 @@ module Orange
     attr_accessor :model_class
     # Defines a list of exposed actions
     cattr_accessor :exposed_actions
+    cattr_accessor :listable_actions
+    
+    def self.listable(*args)
+      self.listable_actions ||= []
+      args.each{|arg| self.listable_actions << arg}
+    end
     
     # Tells the Model resource which Carton class to scaffold
     # @param [Orange::Carton] my_model_class class name of the carton class to scaffold
@@ -19,6 +25,7 @@ module Orange
     # class to the class-level model class defined by #use
     def self.new(*args, &block)
       self.exposed_actions ||= {:all => [:show, :list], :admin => [:all], :orange => [:all]}
+      self.listable_actions ||= []
       me = super(*args, &block)
       me.model_class = self.model_class 
       me
@@ -35,7 +42,24 @@ module Orange
       resource_id = opts[:id] || packet['route.resource_id', false]
       mode = opts[:mode] || packet['route.resource_action'] || 
         (resource_id ? :show : :index)
-      self.__send__(mode, packet, opts)
+      if self.respond_to?(mode)
+        self.__send__(mode, packet, opts)
+      else
+        viewable(packet, mode, opts)
+      end
+    end
+    
+    # Allows undefined methods to be viewed with the standard do_view method
+    # They must be added to the viewable or listable actions by calling
+    # #self.viewable or #self.listable with a set of functions to be viewable
+    def viewable(packet, mode, opts={})
+      if(self.class.viewable_actions.include?(mode))
+        do_view(packet, mode, opts)
+      elsif(self.class.listable_actions.include?(mode))
+        do_list_view(packet, mode, opts)
+      else
+        ''
+      end
     end
     
     # Renders a view, with all options set for haml to access.

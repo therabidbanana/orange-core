@@ -7,9 +7,16 @@ module Orange
     # Defines a model class as an inheritable class attribute and also an instance
     # attribute
     cattr_accessor :called
+    cattr_accessor :viewable_actions
+    
+    def self.viewable(*args)
+      self.viewable_actions ||= []
+      args.each{|arg| self.viewable_actions << arg}
+    end
     
     def initialize(*args, &block)
       @options = DefaultHash.new.merge!(Options.new(*args, &block).hash)
+      self.class.viewable_actions ||= []
     end
     
     def set_orange(orange, name)
@@ -44,7 +51,17 @@ module Orange
     end
     
     def view(packet = false, *args)
-      ''
+      opts = args.extract_options!
+      action = opts[:mode] || opts[:resource_action] || packet['route.resource_action'] || :index
+      viewable(packet, action, opts)
+    end
+    
+    def viewable(packet, mode, opts={})
+      if(self.class.viewable_actions.include?(mode))
+        do_view(packet, mode, opts)
+      else
+        ''
+      end
     end
     
     def orange_name
