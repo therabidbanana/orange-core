@@ -82,7 +82,6 @@ module Orange
         @application.stack_init if @application
       end
       self.register(:stack_reloading){|s| @middleware = []} # Dump middleware on stack reload
-      # load(Orange::AdminResource.new, :admin)
       afterLoad
       self
     end
@@ -216,8 +215,9 @@ module Orange
     
     # Returns options of the orange core
     # 
-    # @return [Hash] Hash of options
-    def options
+    # @return [Mash] Hash-like mash of options
+    def options(*args, &block)
+      @options.merge(Options.new(*args, &block).hash) if (args.size > 0 || block_given?)
       @options
     end
     

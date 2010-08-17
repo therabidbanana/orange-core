@@ -140,12 +140,14 @@ describe Orange::Core do
   end
   
   it "should have a mash options hash" do
-    c= Orange::Core.new(:opt_1 => true){ opt_2 true }
+    c= Orange::Core.new(:opt_1 => true, "opt_4" => 'banana'){ opt_2 true }
     c.options.should be_an_instance_of(Mash)
     c.options[:opt_1].should == true
     c.options[:opt_2].should == true
+    c.options[:opt_4].should == 'banana'
     c.options["opt_1"].should == true
     c.options["opt_2"].should == true
+    c.options["opt_4"].should == 'banana'
     c.options.should have_key(:opt_1)
     c.options.should have_key("opt_1")
     c.options.should_not have_key(:opt_3)
