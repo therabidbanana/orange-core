@@ -161,7 +161,7 @@ describe Orange::Stack do
     x.middlewarez.should have(1).middlewares
     x.prerouting
     x.middlewarez.should have(9).middlewares
-    x.middlewarez.select{|y| y.instance_of?(Rack::AbstractFormat)}.should_not be_empty
+    x.middlewarez.select{|y| y.instance_of?(Orange::Middleware::AbstractFormat)}.should_not be_empty
     x.middlewarez.select{|y| y.instance_of?(Orange::Middleware::RouteSite)}.should_not be_empty
   end
   
@@ -189,7 +189,7 @@ describe Orange::Stack do
     x.middlewarez.should have(1).middlewares
     x.prerouting(:no_abstract_format => true)
     x.middlewarez.should have(8).middlewares
-    x.middlewarez.select{|y| y.instance_of?(Rack::AbstractFormat)}.should be_empty
+    x.middlewarez.select{|y| y.instance_of?(Orange::Middleware::AbstractFormat)}.should be_empty
     x.middlewarez.select{|y| y.instance_of?(Orange::Middleware::RouteSite)}.should_not be_empty
   end
   

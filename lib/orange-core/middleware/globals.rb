@@ -8,10 +8,10 @@ module Orange::Middleware
       @globals = orange[:parser].yaml(@file) || {}
       @globals.each{|k,v| orange.options[k] = v}
     end
+    
     def packet_call(packet)
       packet['orange.globals'] ||= orange.options
       pass packet
     end
-    
   end
 end
