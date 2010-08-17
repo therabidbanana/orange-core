@@ -73,13 +73,22 @@ module Orange::Middleware
     
     def should_route?(packet, parts)
       return false unless @exposed.has_key?(packet['route.context'])
-      action_exposed?(@exposed[packet['route.context']], parts)      
+      if parts[:resource].blank? || !(orange[parts[:resource]].respond_to?(:exposed))
+        action_exposed?(@exposed[packet['route.context']], parts)   
+      else
+        # This allows ModelResources to expose their own action.
+        # (Other resources too, but those ones have to explicitly define
+        # the #exposed(packet) method to work)
+        new_parts = parts.dup
+        new_parts.delete(:resource)
+        action_exposed?(orange[parts[:resource]].exposed(packet), new_parts)
+      end
     end
     
     def action_exposed?(list, route_parts)
       return true if list == :all
       return true if list == route_parts[:resource_action]
-      return true if list.is_a?(Array) && list.include?(route_parts[:resource_action])
+      return true if list.is_a?(Array) && (list.include?(route_parts[:resource_action]) || list.include?(:all))
       if list.is_a?(Hash)
         all = list.has_key?(:all) ? action_exposed?(list[:all], route_parts) : false
         one = list.has_key?(route_parts[:resource]) ? action_exposed?(list[route_parts[:resource]], route_parts) : false

@@ -6,6 +6,8 @@ module Orange
     # attribute
     cattr_accessor :model_class
     attr_accessor :model_class
+    # Defines a list of exposed actions
+    cattr_accessor :exposed_actions
     
     # Tells the Model resource which Carton class to scaffold
     # @param [Orange::Carton] my_model_class class name of the carton class to scaffold
@@ -16,6 +18,7 @@ module Orange
     # Overrides the instantiation of new Resource object to set instance model
     # class to the class-level model class defined by #use
     def self.new(*args, &block)
+      self.exposed_actions ||= {:all => [:show, :list], :admin => [:all], :orange => [:all]}
       me = super(*args, &block)
       me.model_class = self.model_class 
       me
@@ -221,6 +224,29 @@ module Orange
     # @param [Orange::Packet] packet the packet being routed
     def index(packet, *opts)
       do_list_view(packet, :list, *opts)
+    end
+    
+    # Add methods to the list of exposed actions. 
+    def self.expose(*args)
+      self.exposed_actions ||= {:all => [:show, :list], :admin => :all, :orange => :all}
+      self.exposed_actions.merge!(args.extract_options!)
+      self.exposed_actions[:all].concat(args)
+    end
+    
+    # Add an exclusive list of exposed actions. List is cleared out beforehand
+    def self.expose_only(*args)
+      self.exposed_actions = {:all => []}
+      self.exposed_actions.merge!(args.extract_options!)
+      self.exposed_actions[:all].concat(args)
+    end
+    
+    # Exposed method for helping the RestfulRouter class.
+    def exposed(packet)
+      all = self.class.exposed_actions[:all]
+      all = [all] unless all.is_a?(Array)
+      context = self.class.exposed_actions[packet['route.context']]
+      context = [context] unless context.is_a?(Array)
+      all+context
     end
   
   end
