@@ -57,7 +57,9 @@ module Orange
     end
     
     def viewable(packet, mode, opts={})
-      if(self.class.viewable_actions.include?(mode))
+      if(self.respond_to?(mode))
+        self.__send__(mode, packet, opts)
+      elsif(self.class.viewable_actions.include?(mode))
         do_view(packet, mode, opts)
       else
         ''
