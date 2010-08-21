@@ -12,7 +12,7 @@ module Orange::Middleware
     
     def stack_init
       unless orange.options.has_key?('database') && orange.options['database'] == false
-        db = orange.options['database'] || ENV["DATABASE_URL"] || "sqlite3://#{orange.app_dir('dev_db.sqlite')}"
+        db = ENV["DATABASE_URL"] || orange.options['database'] || "sqlite3://#{orange.app_dir('dev_db.sqlite')}"
         orange.load_db!(db) 
         orange.upgrade_db! unless @options[:no_auto_upgrade] || orange.options['db_no_auto_upgrade']
       end
