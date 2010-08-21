@@ -1,5 +1,6 @@
 require 'orange-core/middleware/base'
-
+require 'dm-core'
+require 'dm-migrations'
 module Orange::Middleware
   
   class Database < Base
