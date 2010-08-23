@@ -160,12 +160,15 @@ module Orange
     # Takes an instance of Orange::Stack and saves it. 
     def stack(new_stack = false)
       @stack = new_stack if new_stack
+      @middleware = [] if new_stack
       @stack
     end
     
     # Takes an instance of Orange::Stack and saves it.
     def stack=(new_stack)
       @stack = new_stack
+      @middleware = []
+      @stack
     end
     
     # Convenience self for consistent naming across middleware

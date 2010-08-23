@@ -200,14 +200,14 @@ module Orange
         @app = false                    # Rebuild no matter what if autoload
       end
       unless @app 
-        @app = do_build            # Build if necessary
+        do_build            # Build if necessary
         orange.fire(:stack_loaded, @app)
       end
       @app
     end
     
     def do_build
-      @build.to_app
+      @app = @build.to_app
     end
     
     # Sets the core and then passes on to the stack, according to standard 
@@ -219,7 +219,7 @@ module Orange
     
     # Debug helping
     def inspect
-      "#<Orange::Stack:0x#{self.object_id.to_s(16)} @build=#{@build.inspect}, @core=#{@core.inspect}>"
+      "#<Orange::Stack:0x#{self.object_id.to_s(16)} @app=#{@app.inspect}, @core=#{@core.inspect}>"
     end
   end
 end

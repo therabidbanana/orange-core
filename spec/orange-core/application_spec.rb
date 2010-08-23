@@ -47,6 +47,7 @@ describe Orange::Application do
   it "should have a different app stack after using stack method" do
     lambda {
       MockApplication.stack do
+        run MockExitware.new
       end
     }.should change(MockApplication, :app)
   end
