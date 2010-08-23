@@ -126,7 +126,7 @@ module Orange
     # Each call to stack overrides the previous one.
     def self.stack(core = false, &block)
       self.core = core if core
-      self.core.stack = nil   # Wipe old stack from core
+      self.core.stack = nil if self.core   # Wipe old stack from core
       self.stack_block = Proc.new           # pulls in the block and makes it a proc
     end
   end
