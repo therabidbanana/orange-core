@@ -129,7 +129,7 @@ module Orange
       stack Orange::Middleware::AbstractFormat unless opts[:no_abstract_format] 
       stack Orange::Middleware::RouteSite, opts.dup
       stack Orange::Middleware::RouteContext, opts.dup
-      stack Orange::Middleware::Database
+      stack Orange::Middleware::Database unless (opts[:no_datamapper] || orange.options[:no_datamapper])
       Orange.plugins.each{|p| p.middleware(:prerouting).each{|m| stack m, opts.dup} if p.has_middleware?}
     end
     

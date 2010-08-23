@@ -52,7 +52,8 @@ module Orange
     
     def view(packet = false, *args)
       opts = args.extract_options!
-      action = opts[:mode] || opts[:resource_action] || packet['route.resource_action'] || :index
+      my_action = packet['route.resource_action'] if packet
+      action = opts[:mode] || opts[:resource_action] || my_action || :index
       viewable(packet, action, opts)
     end
     

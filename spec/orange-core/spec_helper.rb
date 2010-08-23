@@ -14,6 +14,8 @@ require 'mock/mock_router'
 require 'mock/mock_resource'
 require 'mock/mock_middleware'
 require 'rack/test'
+require 'dm-sqlite-adapter'
+DataMapper.setup(:default, "sqlite::memory:")
 
 
 Spec::Runner.configure do |config|

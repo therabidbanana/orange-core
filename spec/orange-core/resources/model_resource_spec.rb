@@ -91,8 +91,10 @@ describe Orange::ModelResource do
   
   it "should call view_extras after during view_opts" do
     a= MockModelResourceThree.new
+    DataMapper.setup(:default, "sqlite::memory:")
+    c = Orange::Core.new(:no_datamapper => true)
     lambda{
-      a.view_opts(Orange::Packet.new(Orange::Core.new, {}), :list, true)
+      a.view_opts(Orange::Packet.new(c, {}), :list, true)
     }.should raise_error(RuntimeError, "calling find_extras")
   end
   
