@@ -13,12 +13,14 @@ module Orange::Middleware
     def stack_init
       unless orange.options.has_key?('database') && orange.options['database'] == false
         db = ENV["DATABASE_URL"] || orange.options['database'] || "sqlite3://#{orange.app_dir('dev_db.sqlite')}"
+        orange.options['database'] = db
         orange.load_db!(db) 
         orange.upgrade_db! unless @options[:no_auto_upgrade] || orange.options['db_no_auto_upgrade']
       end
     end
     
     def packet_call(packet)
+      packet["database.url"] = orange.options["database"]
       path = packet['route.path'] || packet.request.path_info
       if @options[:migration_url] && @options[:migration_url] == path
         orange.migrate_db!

@@ -47,8 +47,7 @@ module Orange
       {
         :contexts => [:live, :admin, :orange],
         :default_context => :live,
-        :default_resource => :not_found,
-        :default_database => 'sqlite3::memory:'
+        :default_resource => :not_found
       } unless defined?(DEFAULT_CORE_OPTIONS)
     
     # Args will be set to the @options array. 
