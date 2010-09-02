@@ -32,8 +32,8 @@ Should I Use Orange?
     "I want to create a quick RESTful web service that does one thing and does it well"
 
 Sinatra is probably better for this kind of thing. It's perfect for creating quick web apps based on RESTful
-ideals. Or perhaps use a Sinatra clone built on Orange, so you can incorporate orange plugins... 
-but such a clone doesn't exist (yet).
+ideals. Or perhaps use a Sinatra clone built on Orange, so you can incorporate orange plugins and built in 
+database support... but such a clone doesn't exist [does it](http://github.com/therabidbanana/orange-juice)?
 
     "I want to create a powerful web application that needs to be rock solid and use a 
     well-tested foundation"
@@ -43,43 +43,31 @@ for building web applications that gives you everything you need for the lifecyc
 application
 
     "I want to deploy a website on Ruby that has some dynamic elements, maybe allowing me
-    to create parts of the page in a plugin if necessary."
+    to create my own plugin without jumping through too many hoops."
     
 Yes. This is what orange was designed for - we're building it to be able to quickly deploy
-websites that can have a Ruby base without the heavy-weight Ruby on Rails backend, but without
-feeling like you have to start from scratch like it feels in Sinatra.
+websites that can have a Ruby base without the heavy-weight Ruby on Rails backend, but also 
+without feeling like you have to start from scratch like it feels in Sinatra.
 
 
 Required Gems
 -------------
 
-To be updated... (this is full list for orange-core and orange-more, we're looking to minimize 
-orange-core dependencies).
+orange-core tries to stay light on the dependencies. 
 
-* dm-core (+ do_[sqlite3|mysql|...] )
-* dm-more
-* dm-is-awesome_set
+* dm-core (+ dm-[sqlite3|mysql|...]-adapter )
+* dm-migrations
 * rack
 * haml
-* rack-abstract-format (github)
-* ruby-openid
-* rack-openid
-* openid_dm_store
-* radius
 * crack
-* eventbright
-* spreedly
-* hominid
-* mail
-* tlsmail (If Ruby version <= 1.8.6)
-* gattica
 
 All dependencies should be loaded if you install the gem except for the datamapper
 adapter relevant to your set up. If, for example, you want to use a mysql database,
-you'll need to install do_mysql, and for an sqlite3 database, you'll need do_sqlite3
+you'll need to install dm-mysql-adapter, and for an sqlite3 database, you'll need dm-sqlite-adapter
 
 
-Also, you'll need a web server of some kind and need to set it up for rack.
+Also, you'll need a web server of some kind and need to set it up for rack. Rack supports
+WEBrick out of the box if you just want to play around though.
 
 **Testing** 
 
