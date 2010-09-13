@@ -43,12 +43,6 @@ describe Orange::ModelResource do
     }.should raise_error(RuntimeError, "I see you're using other")
   end
   
-  it "shouldn't give a shit" do
-    lambda{
-      MockModelResource.shit
-    }.should raise_error(NoMethodError)
-  end
-  
   it "should call find_one if calling view_opts with is_list false" do
     a= MockModelResourceOne.new
     lambda{
@@ -95,6 +89,20 @@ describe Orange::ModelResource do
     lambda{
       a.view_opts(Orange::Packet.new(c, {}), :list, true)
     }.should raise_error(RuntimeError, "calling find_extras")
+  end
+  
+  it "should have nesting methods" do
+    MockModelResourceOne.should respond_to(:nests_in)
+    MockModelResourceOne.nests_in :foo
+    MockModelResourceOne.new.nested_in.should include(:foo)
+    MockModelResourceTwo.should respond_to(:nests_many)
+    MockModelResourceTwo.nests_many :bar
+    MockModelResourceTwo.new.nests.should have_key(:bar)
+    MockModelResourceTwo.should respond_to(:nests_one)
+    MockModelResourceTwo.nests_one :baz
+    MockModelResourceTwo.new.nests.should have_key(:baz)
+    MockModelResourceTwo.new.nests[:bar].should == :many
+    MockModelResourceTwo.new.nests[:baz].should == :one
   end
   
   it "should call haml parser with opts on do_view" do

@@ -20,13 +20,15 @@ module Orange::Middleware
       parts = route_parts(packet)
       if(should_route?(packet, parts))
         # Take parts of route and set packet info
-        packet['route.resource'] = parts[:resource] if parts[:resource]
-        packet['route.resource_id'] = parts[:resource_id] if parts[:resource_id]
-        packet['route.resource_action'] = parts[:resource_action] if parts[:resource_action]
+        first_part = parts.pop
+        
+        packet['route.resource'] = first_part[:resource] if first_part[:resource]
+        packet['route.resource_id'] = first_part[:resource_id] if first_part[:resource_id]
+        packet['route.resource_action'] = first_part[:resource_action] if first_part[:resource_action]
         
         # Take remainder and set to resource_path
-        packet['route.resource_path'] = parts[:remainder]
-        
+        packet['route.resource_path'] = first_part[:remainder] if first_part[:remainder]
+        packet['route.nesting'] = parts
         # Set self as router if resource was found
         if(packet['route.resource', false]) 
           packet['route.router'] = self
@@ -39,24 +41,26 @@ module Orange::Middleware
       pass packet
     end
     
-    def route_parts(packet)
+    def get_parts(path, nested_in = nil)
       return_parts = {}
-      path = packet['route.path'] || packet.request.path_info
       parts = path.split('/')
       pad = parts.shift
       if !parts.empty?
         resource = parts.shift
-        if orange.loaded?(resource.to_sym)
+        if orange.loaded?(resource.to_sym) && (!nested_in || orange[nested_in].nests.keys.include?(resource.to_sym))
           return_parts[:resource] = resource.to_sym
           if !parts.empty?
             second = parts.shift
             if second =~ /^\d+$/
               return_parts[:resource_id] = second
-              if !parts.empty?
+              if !(parts.empty? || orange[resource.to_sym].nests.keys.include?(parts.first.to_sym))
                 return_parts[:resource_action] = parts.shift.to_sym
               else
                 return_parts[:resource_action] = :show
               end
+            elsif orange[resource.to_sym].nests.keys.include?(second.to_sym)
+              # we're nesting if the action is the same as a resource name
+              return_parts[:resource_action] = :show
             else
               return_parts[:resource_action] = second.to_sym
             end 
@@ -69,6 +73,22 @@ module Orange::Middleware
       end # end check for nonempty route
       return_parts[:remainder] = parts.unshift(pad).join('/')
       return_parts
+    end
+    
+    def route_parts(packet)
+      path = packet['route.path'] || packet.request.path_info
+      my_parts = []
+      my_parts << get_parts(path)
+      new_path = my_parts.last[:remainder]
+      nested = my_parts.last[:resource]
+      until (new_path.blank? || new_path == "/" )
+        parts = get_parts(new_path, nested)
+        break if new_path == parts[:remainder]
+        my_parts << parts
+        new_path = parts[:remainder]
+        nested = my_parts.last[:resource]
+      end
+      my_parts
     end
     
     def should_route?(packet, parts)

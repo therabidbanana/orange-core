@@ -9,6 +9,10 @@ module Orange
     # Defines a list of exposed actions
     cattr_accessor :exposed_actions
     cattr_accessor :listable_actions
+    # Allows the resource to be nested inside other resources.
+    cattr_accessor :nested_in
+    # Allows the resource to be nest other resources.
+    cattr_accessor :nests
     
     def self.listable(*args)
       self.listable_actions ||= []
@@ -21,11 +25,39 @@ module Orange
       self.model_class = my_model_class
     end
     
+    # Allows the resource to nest other resources
+    def self.nests_many(*args)
+      self.nests ||= {}
+      args.each{|arg| self.nests[arg] = :many}
+    end
+    
+    # Allows the resource to nest other resources
+    def self.nests_one(*args)
+      self.nests ||= {}
+      args.each{|arg| self.nests[arg] = :one}
+    end
+    
+    def nests
+      self.class.nests
+    end
+    
+    # Allows the resource to nest inside other resources
+    def self.nests_in(*args)
+      self.nested_in ||= []
+      args.each{|arg| self.nested_in << arg}
+    end
+    
+    def nested_in
+      self.class.nested_in
+    end
+    
     # Overrides the instantiation of new Resource object to set instance model
     # class to the class-level model class defined by #use
     def self.new(*args, &block)
       self.exposed_actions ||= {:all => [:show, :list], :admin => [:all], :orange => [:all]}
       self.listable_actions ||= []
+      self.nested_in ||= []
+      self.nests ||= {}
       me = super(*args, &block)
       me.model_class = self.model_class 
       me

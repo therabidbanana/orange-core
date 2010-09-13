@@ -2,6 +2,19 @@ class MockModelResource < Orange::ModelResource
   use MockCarton
 end
 
+class MockNestedResource < Orange::ModelResource
+  nests_in :products
+end
+
+class MockNestingResource < Orange::ModelResource
+  nests_many :photo
+  nests_in :category
+end
+
+class MockCategoryResource < Orange::ModelResource
+  nests_many :products
+end
+
 class MockModelResourceOne < Orange::ModelResource
   use MockCarton
   def index(packet, *args)

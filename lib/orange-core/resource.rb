@@ -9,6 +9,10 @@ module Orange
     cattr_accessor :called
     cattr_accessor :viewable_actions
     
+    def nests
+      {}
+    end
+    
     def self.viewable(*args)
       self.viewable_actions ||= []
       args.each{|arg| self.viewable_actions << arg}
