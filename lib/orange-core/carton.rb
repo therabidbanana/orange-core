@@ -37,13 +37,10 @@ module Orange
       HEREDOC
     end
     
-    # Include DataMapper types (required to be able to use Serial)
-    include DataMapper::Types
-    
     # Do setup of object and declare an id
     def self.id
       include DataMapper::Resource
-      property(:id, Serial)
+      property(:id, DataMapper::Property::Serial)
       self.scaffold_properties ||= []
       self.init
     end
@@ -111,13 +108,13 @@ module Orange
     # Define a helper for fulltext type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.fulltext(name, opts = {})
-      add_scaffold(name, :fulltext, Text, opts)
+      add_scaffold(name, :fulltext, DataMapper::Property::Text, opts)
     end
     
     # Define a helper for boolean type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.boolean(name, opts = {})
-      add_scaffold(name, :boolean, Boolean, opts)
+      add_scaffold(name, :boolean, DataMapper::Property::Boolean, opts)
     end
     
     # Define a helper for input type="text" type database stuff
