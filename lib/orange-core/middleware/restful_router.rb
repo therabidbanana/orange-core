@@ -93,15 +93,15 @@ module Orange::Middleware
     
     def should_route?(packet, parts)
       return false unless @exposed.has_key?(packet['route.context'])
-      if parts[:resource].blank? || !(orange[parts[:resource]].respond_to?(:exposed))
-        action_exposed?(@exposed[packet['route.context']], parts)   
+      if parts.first[:resource].blank? || !(orange[parts.first[:resource]].respond_to?(:exposed))
+        action_exposed?(@exposed[packet['route.context']], parts.first)   
       else
         # This allows ModelResources to expose their own action.
         # (Other resources too, but those ones have to explicitly define
         # the #exposed(packet) method to work)
-        new_parts = parts.dup
+        new_parts = parts.first.dup
         new_parts.delete(:resource)
-        action_exposed?(orange[parts[:resource]].exposed(packet), new_parts)
+        action_exposed?(orange[parts.first[:resource]].exposed(packet), new_parts)
       end
     end
     
