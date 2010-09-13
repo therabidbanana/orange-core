@@ -9,8 +9,8 @@ module Orange
       orange.add_pulp Orange::Pulp::ParserPulp
       @template_dirs = [File.join(orange.core_dir, 'templates')]
       @view_dirs = [File.join(orange.core_dir, 'views')]
-      Orange.plugins.each{|p| @template_dirs << p.templates if p.has_templates? }
-      Orange.plugins.each{|p| @view_dirs << p.views if p.has_views? }
+      orange.plugins.each{|p| @template_dirs << p.templates if p.has_templates? }
+      orange.plugins.each{|p| @view_dirs << p.views if p.has_views? }
     end
     
     def yaml(file)

@@ -35,7 +35,7 @@ module Orange::Middleware
 
     def initialize(app, core, options={})
       @lib_urls = {'_orange_' => File.join(core.core_dir, 'assets') }
-      Orange.plugins.each{|p| @lib_urls[p.assets_name] = p.assets if p.has_assets?}
+      core.plugins.each{|p| @lib_urls[p.assets_name] = p.assets if p.has_assets?}
       
       @app = app
       @core = core      

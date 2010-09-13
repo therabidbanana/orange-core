@@ -130,7 +130,7 @@ module Orange
       stack Orange::Middleware::RouteSite, opts.dup
       stack Orange::Middleware::RouteContext, opts.dup
       stack Orange::Middleware::Database unless (opts[:no_datamapper] || orange.options[:no_datamapper])
-      Orange.plugins.each{|p| p.middleware(:prerouting).each{|m| stack m, opts.dup} if p.has_middleware?}
+      orange.plugins.each{|p| p.middleware(:prerouting).each{|m| stack m, opts.dup} if p.has_middleware?}
     end
     
     # A shortcut for routing via Orange::Middleware::RestfulRouter and any plugins
@@ -138,17 +138,17 @@ module Orange
     # Any args are passed on to the middleware
     def routing(opts ={})
       stack Orange::Middleware::RestfulRouter, opts.dup
-      Orange.plugins.each{|p| p.middleware(:routing).each{|m| stack m, opts.dup} if p.has_middleware?}
+      orange.plugins.each{|p| p.middleware(:routing).each{|m| stack m, opts.dup} if p.has_middleware?}
     end
     
     def postrouting(opts ={})
-      Orange.plugins.each{|p| p.middleware(:postrouting).each{|m| stack m, opts.dup} if p.has_middleware?}
+      orange.plugins.each{|p| p.middleware(:postrouting).each{|m| stack m, opts.dup} if p.has_middleware?}
       stack Orange::Middleware::Template
       stack Orange::Middleware::FourOhFour, opts.dup # Last ditch, send route to 404 page.
     end
     
     def responders(opts ={})
-      Orange.plugins.each{|p| p.middleware(:responders).each{|m| stack m, opts.dup} if p.has_middleware?}
+      orange.plugins.each{|p| p.middleware(:responders).each{|m| stack m, opts.dup} if p.has_middleware?}
     end
     
     # # A shortcut to enable Rack::OpenID and Orange::Middleware::AccessControl

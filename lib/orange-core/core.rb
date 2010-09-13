@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'extlib/mash'
+require 'extlib/inflection'
 require 'dm-migrations'
 require 'rack'
 require 'rack/builder'
@@ -13,8 +14,15 @@ module Orange
   attr_accessor :plugins
   
   # Support for plugins
-  def self.plugins
+  def self.plugins(plugin_list = false)
     @plugins ||= []
+    return @plugins unless plugin_list
+    @plugins.select do |p| 
+      plugin_list.include?(
+        Extlib::Inflection::underscore(
+          Extlib::Inflection::demodulize(p.class.to_s)
+        ).to_sym)
+    end
   end
   
   # Allows adding plugins
@@ -75,7 +83,7 @@ module Orange
       load(Orange::Mapper.new, :mapper)
       load(Orange::Scaffold.new, :scaffold)
       load(Orange::PageParts.new, :page_parts)
-      Orange.plugins.each{|p| p.resources.each{|args| load(*args)} if p.has_resources?}
+      Orange.plugins(@options['plugins']).each{|p| p.resources.each{|args| load(*args)} if p.has_resources?}
       self.register(:stack_loaded) do |s| 
         @middleware.each{|m| m.stack_init if m.respond_to?(:stack_init)}
         @application.stack_init if @application
@@ -265,6 +273,10 @@ module Orange
     
     def inspect
       "#<Orange::Core:0x#{self.object_id.to_s(16)}>"
+    end
+    
+    def plugins
+      Orange.plugins(options['plugins'])
     end
   end
 end
