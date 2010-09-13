@@ -1,3 +1,6 @@
+# This file is a set of crazy monkey patches and other support oddities.
+#
+
 # Monkey Patch the extract_options! stolen from ActiveSupport
 # @private
 class ::Array #:nodoc:

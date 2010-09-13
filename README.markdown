@@ -2,12 +2,15 @@ Orange
 ======
 
 Orange is intended to be a middle ground between the simplicity of Sinatra 
-and the power of Rails. Orange is being developed by Orange Sparkle Ball, inc
-for our own use. 
+and the power of Rails. It also throws a bit of django's auto admin interface
+into the mix. Orange is being developed by Orange Sparkle Ball, inc
+for developing websites for our clients quickly and efficiently, but certainly 
+could be adapted to other uses... if you come up with something creative, let
+us know.
 
 orange-core represents the core dependencies for orange applications. If you want
-a full featured Orange-based CMS, we're working on splitting that into the Sparkles
-project.
+a full featured Orange-based CMS (where the automatic admin interface comes in), 
+look at [orange-sparkles](http://github.com/orange-project/orange-sparkles).
 
 **Note**: Orange is still in a "beta" stage. Test coverage is lack-luster at best. The library is being used on a few currently live (low traffic) sites, so it might be stable enough to use on your own projects let us know if you have issues.
 
