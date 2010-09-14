@@ -106,11 +106,15 @@ module Orange
     # Returns an instance of Orange::Stack to be run by Rack
     #
     # Usually, you'll call this in the rackup file: `run MyApplication.app`
-    def self.app(c = false)
+    def self.app(c = false, &block)
       if c
         self.core = c 
       else
-        self.core ||= Orange::Core.new
+        if block_given?
+          self.core = Orange::Core.new(&block)
+        else
+          self.core ||= Orange::Core.new
+        end
       end
       return self.core.stack unless self.core.stack.blank?
       if self.stack_block.instance_of?(Proc)
