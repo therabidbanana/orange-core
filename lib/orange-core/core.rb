@@ -83,6 +83,7 @@ module Orange
       load(Orange::Mapper.new, :mapper)
       load(Orange::Scaffold.new, :scaffold)
       load(Orange::PageParts.new, :page_parts)
+      
       Orange.plugins(@options['plugins']).each{|p| p.resources.each{|args| load(*args)} if p.has_resources?}
       self.register(:stack_loaded) do |s| 
         @middleware.each{|m| m.stack_init if m.respond_to?(:stack_init)}
@@ -90,6 +91,7 @@ module Orange
       end
       self.register(:stack_reloading){|s| @middleware = []} # Dump middleware on stack reload
       afterLoad
+      options[:development_mode] = true if ENV['RACK_ENV'] && ENV['RACK_ENV'] == 'development'
       self
     end
     

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Haslem"]
-  s.date = %q{2010-08-17}
+  s.date = %q{2010-09-14}
   s.description = %q{Orange is a Ruby framework for building managed websites with code as simple as Sinatra}
   s.email = %q{therabidbanana@gmail.com}
   s.extra_rdoc_files = [
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/orange-core/middleware/loader.rb",
      "lib/orange-core/middleware/rerouter.rb",
      "lib/orange-core/middleware/restful_router.rb",
+     "lib/orange-core/middleware/root_dir.rb",
      "lib/orange-core/middleware/route_context.rb",
      "lib/orange-core/middleware/route_site.rb",
      "lib/orange-core/middleware/show_exceptions.rb",
@@ -96,6 +97,7 @@ orange-core install complete.
      "spec/orange-core/mock/mock_middleware.rb",
      "spec/orange-core/mock/mock_mixins.rb",
      "spec/orange-core/mock/mock_model_resource.rb",
+     "spec/orange-core/mock/mock_plugin.rb",
      "spec/orange-core/mock/mock_pulp.rb",
      "spec/orange-core/mock/mock_resource.rb",
      "spec/orange-core/mock/mock_router.rb",
