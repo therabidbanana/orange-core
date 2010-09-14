@@ -127,6 +127,7 @@ module Orange
       stack Orange::Middleware::Rerouter, opts.dup
       stack Orange::Middleware::Static, opts.dup
       stack Orange::Middleware::AbstractFormat unless opts[:no_abstract_format] 
+      stack Orange::Middleware::RootDir, opts.dup
       stack Orange::Middleware::RouteSite, opts.dup
       stack Orange::Middleware::RouteContext, opts.dup
       stack Orange::Middleware::Database unless (opts[:no_datamapper] || orange.options[:no_datamapper])
