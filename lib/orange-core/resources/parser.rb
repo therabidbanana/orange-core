@@ -77,6 +77,7 @@ module Orange
           packet_binding['parser.haml-templates', {}]["#{context}-#{resource}-#{file}"] = haml_engine
         end
       end
+      opts[:opts] = opts.dup
       out = haml_engine.render(packet_binding, opts, &block)
     end
     
