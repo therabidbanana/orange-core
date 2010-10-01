@@ -87,7 +87,7 @@ module Orange
     end
     
     def self.add_scaffold(name, type, dm_type, opts)
-      self.scaffold_properties << {:name => name, :type => type, :levels => @levels}.merge(opts) if @levels || opts.has_key?(:levels)
+      self.scaffold_properties << {:name => name, :type => type, :levels => @levels, :lazy => false}.merge(opts) if @levels || opts.has_key?(:levels)
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       self.property(name, dm_type, opts)
     end
@@ -119,7 +119,7 @@ module Orange
     # Define a helper for fulltext type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.fulltext(name, opts = {})
-      add_scaffold(name, :fulltext, DataMapper::Property::Text, opts)
+      add_scaffold(name, :fulltext, DataMapper::Property::Text, opts.with_defaults(:lazy => true))
     end
     
     # Define a helper for boolean type database stuff
