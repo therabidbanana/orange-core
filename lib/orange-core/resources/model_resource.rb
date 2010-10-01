@@ -127,7 +127,7 @@ module Orange
     # @return [Hash] hash of options to be used
     def view_opts(packet, mode, is_list, *args)
       opts = args.extract_options!.with_defaults({:path => ''})
-      props = model_class.form_props(packet['route.context'])
+      props = model_class.form_props(packet['route.context'], (is_list ? mode : :any))
       resource_id = opts[:id] || packet['route.resource_id'] || false
       all_opts = {:props => props, :resource => self, :model_name => @my_orange_name}.merge!(opts)
       all_opts.with_defaults! :model => find_one(packet, mode, resource_id) unless is_list

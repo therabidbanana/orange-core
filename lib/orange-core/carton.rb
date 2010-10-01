@@ -50,8 +50,19 @@ module Orange
     end
     
     # Return properties that should be shown for a given context
-    def self.form_props(context = :live)
-      self.scaffold_properties.select{|p| p[:levels].include?(context)  }
+    def self.form_props(context = :live, mode = :any)
+      self.scaffold_properties.select{|p| should_use?(p, context, mode)  }
+    end
+    
+    def self.should_use?(property, context, mode = :any )
+      unless mode == :any
+        (p[:levels].include?(context) && 
+          (p[:lazy] == false || 
+           p[:lazy] == mode || 
+           (p[:lazy].is_a?(Array) && p[:lazy].include?(mode))))
+      else
+        p[:levels].include?(context)
+      end
     end
     
     # Helper to wrap properties into admin level
