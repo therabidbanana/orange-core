@@ -44,6 +44,14 @@ module Orange::Pulp::Template
       content
     end
   end
+  def template(name)
+    name = name.to_s if name.kind_of?(Symbol)
+    name = name + ".haml" unless name =~ /\.haml$/
+    packet['template.file'] == name
+  end
+  def layout(name)
+    template(name)
+  end
 end
 
 module Orange::Mixins::Template
