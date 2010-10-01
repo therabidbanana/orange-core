@@ -54,7 +54,7 @@ module Orange
       self.scaffold_properties.select{|p| should_use?(p, context, mode)  }
     end
     
-    def self.should_use?(property, context, mode = :any )
+    def self.should_use?(p, context, mode = :any )
       unless mode == :any
         (p[:levels].include?(context) && 
           (p[:lazy] == false || 
