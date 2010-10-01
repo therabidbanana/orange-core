@@ -20,16 +20,29 @@ module Orange::Middleware
     def call(env)
       @app.call(env)
     rescue Exception => e
-      backtrace = pretty(env, e)
+      if(orange.options[:development_mode])
+        backtrace = pretty(env, e)
       
-      [500,
-       {"Content-Type" => "text/html",
-        "Content-Length" => backtrace.join.size.to_s},
-       backtrace]
+        return [500,
+         {"Content-Type" => "text/html",
+          "Content-Length" => backtrace.join.size.to_s},
+         backtrace]
+      else
+        page = error_page(env)
+        return [500, {"Content-Type" => "text/html",
+          "Content-Length" => page.join.size.to_s},
+         page]
+      end
     end
     
     def packet_call(packet)
       backtrace = pretty()
+    end
+    
+    def error_page(env)
+      packet = Orange::Packet.new(@core, env)
+      parse = orange[:parser].haml("500.haml", packet, :template => true)
+      [parse]
     end
 
     def pretty(env, exception)
