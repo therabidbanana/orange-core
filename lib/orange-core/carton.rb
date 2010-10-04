@@ -125,7 +125,7 @@ module Orange
     # Define a helper for boolean type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.boolean(name, opts = {})
-      add_scaffold(name, :boolean, DataMapper::Property::Boolean, opts)
+      add_scaffold(name, :boolean, DataMapper::Property::Boolean, opts.with_defaults(:lazy => true))
     end
     
     # Define a helper for input type="text" type database stuff
