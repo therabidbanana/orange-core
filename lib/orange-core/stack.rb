@@ -94,7 +94,7 @@ module Orange
     # Shortcut for adding Orange::Middleware::ShowExceptions to the middleware
     # stack
     def use_exceptions
-      stack Orange::Middleware::ShowExceptions
+      stack Orange::Middleware::ShowExceptions unless ENV['RACK_ENV'] == 'production'
     end
     
     # Alias for use_exceptions
