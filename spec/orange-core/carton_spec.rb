@@ -120,7 +120,7 @@ describe Orange::Carton do
   end
   
   it "should call property on fulltext" do
-    MockCarton.should_receive(:property).with(an_instance_of(Symbol), DataMapper::Types::Text, anything())
+    MockCarton.should_receive(:property).with(an_instance_of(Symbol), DataMapper::Property::Text, anything())
     MockCarton.fulltext(:cudge)
   end
   
