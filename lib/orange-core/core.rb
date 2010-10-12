@@ -72,13 +72,13 @@ module Orange
     # This method calls afterLoad when it is done. Subclasses can override
     # the afterLoad method for initialization needs.
     def initialize(*args, &block)
-      @options = Mash.new(Options.new(*args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS))
       @resources = {}
       @application = false
       @stack = false
       @middleware = []
       @events = {}
       @file = __FILE__
+      @options = Mash.new(Options.new(self, *args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS))
       load(Orange::Parser.new, :parser)
       load(Orange::Mapper.new, :mapper)
       load(Orange::Scaffold.new, :scaffold)
@@ -140,6 +140,9 @@ module Orange
     # Resources must respond to set_orange, which is automatically used to 
     # create a link back to the Core, and to notify the resource of its assigned
     # short name.
+    #
+    # 0.7 Feature - Passing a Carton class instead of an Orange::Resource instance
+    # will call Carton#as_resource and then load the ModelResource for that carton
     # 
     # @param [Orange::Resource] resource An instance of Orange::Resource subclass
     # @param [optional, Symbol, String] name A short name to assign as key in Hash 
@@ -147,8 +150,15 @@ module Orange
     #   Doesn't necessarily need to be a symbol, but generally is.
     #   Set to the class name lowercase as a symbol by default.
     def load(resource, name = false)
+      if(resource.instance_of?(Class) && (resource < Orange::Carton))
+        carton = resource # Resource isn't really ar resource
+        carton.as_resource
+        resource_class = Object.const_get("#{carton.to_s}_Resource")
+        resource = resource_class.new
+        name = carton.to_s.gsub(/::/, '_').downcase.to_sym if(!name)
+      end 
       name = resource.orange_name if(!name)
-      name = resource.class.to_s.gsub(/::/, '_').downcase.to_sym if(!name) 
+      name = resource.class.to_s.gsub(/::/, '_').downcase.to_sym if(!name)
       @resources[name] = resource.set_orange(self, name)
     end
     

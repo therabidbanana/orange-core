@@ -41,3 +41,6 @@ end
 
 class MockCartonBlankTwo < Orange::Carton
 end
+
+class MockCartonForCore < Orange::Carton
+end

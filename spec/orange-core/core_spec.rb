@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe Orange::Core do
   before(:all) do
     class Orange::Core; attr_reader :resources, :events, :file; end;
+    class MockCartonForCore < Orange::Carton; end;
   end
   
   it "should allow core mixin via class mixin method" do
@@ -139,6 +140,14 @@ describe Orange::Core do
     c.options.should_not have_key(:opt_3)
   end
   
+  it "should allow passthrough of options (for load method)" do
+    c= Orange::Core.new(:opt_1 => true) do 
+      opt_2 true
+      load Orange::ModelResource.new, :foo
+    end
+    c[:foo].should be_an_instance_of(Orange::ModelResource)
+  end
+  
   it "should have a mash options hash" do
     c= Orange::Core.new(:opt_1 => true, "opt_4" => 'banana'){ opt_2 true }
     c.options.should be_an_instance_of(Mash)
@@ -175,6 +184,15 @@ describe Orange::Core do
     c.load(MockResource.new, :mock_one)
     c.should be_loaded(:mock_one)
     c.resources.should have_key(:mock_one)
+  end
+  
+  it "should say a resource is loaded after calling load for carton" do
+    c= Orange::Core.new
+    MockCartonForCore.should < Orange::Carton
+    c.load(MockCartonForCore, :mock_one)
+    c.should be_loaded(:mock_one)
+    c.resources.should have_key(:mock_one)
+    c[:mock_one].model_class.should == MockCartonForCore
   end
   
   it "should return self on orange" do

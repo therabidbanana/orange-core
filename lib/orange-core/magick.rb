@@ -148,6 +148,7 @@ module Orange
   class Options
     
     def initialize(*options, &block)
+      @core = options.first if(options.size > 0 && options.first.kind_of?(Orange::Core))
       @options = options.extract_options!
       @options ||= {}
       instance_eval(&block) if block_given?
@@ -156,11 +157,18 @@ module Orange
     def hash
       @options
     end
+    
+    # Load needs fixing up.
+    def load(*args)
+      @core.load(*args)
+    end
 
     def method_missing(key, *args)
       return (@options[key.to_s.gsub(/\?$/, '').to_sym].eql?(true)) if key.to_s.match(/\?$/)
       if args.empty?
         @options[key.to_sym]
+      elsif(@core && @core.respond_to?(key.to_sym))
+        @core.__send__(key, *args)
       elsif(key.to_s.match(/\=$/))
         @options[key.to_s.gsub(/\=$/, '').to_sym] = (args.size == 1 ? args.first : args)
       else
