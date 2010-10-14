@@ -139,54 +139,34 @@ module Orange
     end
     
     # Define a helper for belongs_to stuff
-    def self.belongs(name, *args)
-      opts = args.extract_options!
-      relationship_scaffold(name, :belongs_to, opts)
+    def self.belongs(name, model, opts = {})
+      relationship_scaffold(name, :belongs_to, opts.with_defaults(:model_name => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
-      if args.empty?
-        self.belongs_to(name, opts)
-      else
-        self.belongs_to(name, args.first, opts)
-      end
+      self.belongs_to(name, model, opts)
     end
     
     # Define a helper for has_one
-    def self.has_one(name, *args)
-      opts = args.extract_options!
-      relationship_scaffold(name, :has_one, opts)
+    def self.has_one(name, model, opts = {})
+      relationship_scaffold(name, :has_one, opts.with_defaults(:model_name => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
-      if args.empty?
-        self.has(1, name, opts)
-      else
-        self.has(1, name, args.first, opts)
-      end
+      self.has(1, name, model, opts)
     end
     
     
     # Define a helper for has_many
-    def self.has_many(name, *args)
-      opts = args.extract_options!
-      relationship_scaffold(name, :has_many, opts)
+    def self.has_many(name, model, opts = {})
+      relationship_scaffold(name, :has_many, opts.with_defaults(:model_name => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
-      if args.empty?
-        self.has(n, name, opts)
-      else
-        self.has(n, name, args.first, opts)
-      end
+      self.has(n, name, model, opts)
     end
     
     
     # Define a helper for has_many
-    def self.has_and_belongs_to_many(name, *args)
-      opts = args.extract_options!
-      relationship_scaffold(name, :has_and_belongs_to_many, opts)
+    def self.has_and_belongs_to_many(name, model, opts = {})
+      relationship_scaffold(name, :has_and_belongs_to_many, opts.with_defaults(:model_name => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       opts.with_defaults!({:through => DataMapper::Resource})
-      if args.empty?
-        self.has(n, name, opts)
-      else
-        self.has(n, name, args.first, opts)
-      end
+      self.has(n, name, model, opts)
     end
     
     
@@ -232,6 +212,14 @@ module Orange
       my_type = type.to_s.downcase.to_sym
       opts[:levels] = [:orange]
       add_scaffold(name, my_type, type, opts)
+    end
+    
+    def scaffold_name
+      titles = self.class.scaffold_properties.select{|p| p[:type] == :title}
+      return __send__(titles.first.name) if(self.respond_to?(titles.first.name))
+      return title if(self.respond_to?(:title)) 
+      return name if(self.respond_to?(:name))
+      return "#{self.class.to_s} ##{id}"
     end
     
     def to_s
