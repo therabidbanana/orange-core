@@ -298,7 +298,7 @@ module Orange
     
     # Exposed method for helping the RestfulRouter class.
     def exposed(packet)
-      self.exposed_actions ||= {:all => [:show, :list], :admin => :all, :orange => :all}
+      self.class.exposed_actions ||= {:all => [:show, :list], :admin => :all, :orange => :all}
       all = self.class.exposed_actions[:all]
       all = [all] unless all.is_a?(Array)
       context = self.class.exposed_actions[packet['route.context']]
