@@ -22,7 +22,7 @@ module Orange
   # class and just include DataMapper::Resource. All carton methods are to
   # improve scaffolding capability.
   class Carton
-    SCAFFOLD_OPTIONS = [:display_name, :levels] unless defined?(SCAFFOLD_OPTIONS)
+    SCAFFOLD_OPTIONS = [:display_name, :levels, :related_to] unless defined?(SCAFFOLD_OPTIONS)
     extend ClassInheritableAttributes
     cattr_accessor :scaffold_properties
     
@@ -141,14 +141,14 @@ module Orange
     
     # Define a helper for belongs_to stuff
     def self.belongs(name, model, opts = {})
-      relationship_scaffold(name, :belongs, opts.with_defaults(:model_name => model))
+      relationship_scaffold(name, :belongs, opts.with_defaults(:related_to => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       self.belongs_to(name, model, opts)
     end
     
     # Define a helper for has_one
     def self.has_one(name, model, opts = {})
-      relationship_scaffold(name, :has_one, opts.with_defaults(:model_name => model))
+      relationship_scaffold(name, :has_one, opts.with_defaults(:related_to => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       self.has(1, name, model, opts)
     end
@@ -156,7 +156,7 @@ module Orange
     
     # Define a helper for has_many
     def self.has_many(name, model, opts = {})
-      relationship_scaffold(name, :has_many, opts.with_defaults(:model_name => model))
+      relationship_scaffold(name, :has_many, opts.with_defaults(:related_to => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       self.has(n, name, model, opts)
     end
@@ -164,7 +164,7 @@ module Orange
     
     # Define a helper for has_many
     def self.has_and_belongs_to_many(name, model, opts = {})
-      relationship_scaffold(name, :has_and_belongs_to_many, opts.with_defaults(:model_name => model))
+      relationship_scaffold(name, :has_and_belongs_to_many, opts.with_defaults(:related_to => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       opts.with_defaults!({:through => DataMapper::Resource})
       self.has(n, name, model, opts)
