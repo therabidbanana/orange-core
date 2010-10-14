@@ -94,7 +94,7 @@ module Orange
     end
     
     def self.relationship_scaffold(name, type, opts)
-      self.scaffold_properties << {:name => name, :type => type, :levels => @levels, :lazy => false}.merge(opts) if @levels || opts.has_key?(:levels)
+      self.scaffold_properties << {:name => name, :type => type, :levels => @levels, :lazy => false, :relationship => true}.merge(opts) if @levels || opts.has_key?(:levels)
     end
     
     # Define a helper for title type database stuff
