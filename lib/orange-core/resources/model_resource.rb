@@ -163,7 +163,7 @@ module Orange
       no_reroute = opts.delete(:no_reroute)
       if packet.request.post? || !opts.blank?
         params = opts.with_defaults(opts.delete(:params) || packet.request.params[@my_orange_name.to_s] || {})
-        params = params_parse(:new, params)
+        params = params_parse(packet, :new, params)
         before = beforeNew(packet, params)
         obj = onNew(packet, params) if before
         afterNew(packet, obj, params) if before
@@ -173,7 +173,8 @@ module Orange
       obj || false
     end
     
-    def params_parse(mode, params)
+    def params_parse(packet, mode, params)
+      props = model_class.form_props(packet['route.context'], :any)
       params.each{|k,v| params[k] = nil if(k.to_s =~ /_id$/ && v.blank?)}
       params
     end
@@ -231,7 +232,7 @@ module Orange
         my_id = opts.delete(:resource_id) || packet['route.resource_id']
         m = opts.delete(:model) || model_class.get(my_id)
         params = opts.with_defaults(opts.delete(:params) || packet.request.params[@my_orange_name.to_s] || {})
-        params = params_parse(:save, params)
+        params = params_parse(packet, :save, params)
         if m
           before = beforeSave(packet, m, params)
           onSave(packet, m, params) if before

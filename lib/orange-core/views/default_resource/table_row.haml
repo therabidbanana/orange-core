@@ -2,7 +2,7 @@
   %tr
     - for prop in props
       - if(prop[:relationship])
-        / foo
+        %td= [:belongs, :has_one].include?(prop[:type]) ? model.__send__(prop[:name]).scaffold_name : ""
       - else
         %td= model.attribute_get(prop[:name]).to_s[0..150]
     %td.actions

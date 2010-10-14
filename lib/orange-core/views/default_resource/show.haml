@@ -1,4 +1,7 @@
 - if model
   %div{ :class => model_name}
     - for prop in props
-      = view_attribute(prop, model_name, :show => true, :value => model.attribute_get(prop[:name]), :model => model)
+      - if(prop[:relationship])
+        !~ view_attribute(prop, model_name, :show => true, :value => model.__send__(prop[:name]), :model => model)
+      - else
+        !~ view_attribute(prop, model_name, :show => true, :value => model.attribute_get(prop[:name]), :model => model)
