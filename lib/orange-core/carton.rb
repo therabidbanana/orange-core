@@ -92,6 +92,10 @@ module Orange
       self.property(name, dm_type, opts)
     end
     
+    def self.relationship_scaffold(name, type, opts)
+      self.scaffold_properties << {:name => name, :type => type, :levels => @levels, :lazy => false}.merge(opts) if @levels || opts.has_key?(:levels)
+    end
+    
     # Define a helper for title type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.title(name, opts = {})
@@ -134,11 +138,64 @@ module Orange
       add_scaffold(name, :text, String, opts)
     end
     
+    # Define a helper for belongs_to stuff
+    def self.belongs(name, *args)
+      opts = args.extract_options!
+      relationship_scaffold(name, :belongs_to, opts)
+      opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
+      if args.empty?
+        self.belongs_to(name, opts)
+      else
+        self.belongs_to(name, args.first, opts)
+      end
+    end
+    
+    # Define a helper for has_one
+    def self.has_one(name, *args)
+      opts = args.extract_options!
+      relationship_scaffold(name, :has_one, opts)
+      opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
+      if args.empty?
+        self.has(1, name, opts)
+      else
+        self.has(1, name, args.first, opts)
+      end
+    end
+    
+    
+    # Define a helper for has_many
+    def self.has_many(name, *args)
+      opts = args.extract_options!
+      relationship_scaffold(name, :has_many, opts)
+      opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
+      if args.empty?
+        self.has(n, name, opts)
+      else
+        self.has(n, name, args.first, opts)
+      end
+    end
+    
+    
+    # Define a helper for has_many
+    def self.has_and_belongs_to_many(name, *args)
+      opts = args.extract_options!
+      relationship_scaffold(name, :has_and_belongs_to_many, opts)
+      opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
+      opts.with_defaults!({:through => Resource})
+      if args.empty?
+        self.has(n, name, opts)
+      else
+        self.has(n, name, args.first, opts)
+      end
+    end
+    
+    
     # Define a helper for type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.expose(name, opts = {})
       self.scaffold_properties << {:name => name, :type => :text, :levels => @levels, :opts => opts} if @levels
     end
+    
     
     # Define a helper for input type="text" type database stuff
     # Show in a context if wrapped in one of the helpers

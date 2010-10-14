@@ -78,7 +78,7 @@ module Orange
       @middleware = []
       @events = {}
       @file = __FILE__
-      @options = Mash.new(Options.new(self, *args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS))
+      @options = Mash.new(Orange::Options.new(self, *args, &block).hash.with_defaults(DEFAULT_CORE_OPTIONS))
       load(Orange::Parser.new, :parser)
       load(Orange::Mapper.new, :mapper)
       load(Orange::Scaffold.new, :scaffold)
@@ -239,7 +239,7 @@ module Orange
     # 
     # @return [Mash] Hash-like mash of options
     def options(*args, &block)
-      @options.merge(Options.new(*args, &block).hash) if (args.size > 0 || block_given?)
+      @options.merge(Options.new(self, *args, &block).hash) if (args.size > 0 || block_given?)
       @options
     end
     
