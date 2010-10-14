@@ -27,7 +27,7 @@ module Orange
     
     def scaffold_attribute(packet, prop, model_name, *args)
       args = args.extract_options!
-      args.with_defaults!({:packet => packet, :value => '', :label => false, :show => false, :wrap_tag => 'p'})
+      args = args.with_defaults({:packet => packet, :value => '', :label => false, :show => false, :wrap_tag => 'p'})
       val = args[:value]
       label = args[:label]
       show = args[:show]
