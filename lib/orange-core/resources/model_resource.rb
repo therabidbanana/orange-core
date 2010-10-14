@@ -38,7 +38,7 @@ module Orange
     end
     
     def nests
-      self.class.nests
+      self.class.nests || {}
     end
     
     # Allows the resource to nest inside other resources
