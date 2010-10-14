@@ -163,6 +163,7 @@ module Orange
       no_reroute = opts.delete(:no_reroute)
       if packet.request.post? || !opts.blank?
         params = opts.with_defaults(opts.delete(:params) || packet.request.params[@my_orange_name.to_s] || {})
+        params = params_parse(:new, params)
         before = beforeNew(packet, params)
         obj = onNew(packet, params) if before
         afterNew(packet, obj, params) if before
@@ -170,6 +171,11 @@ module Orange
       end
       packet.reroute(@my_orange_name, :orange) unless (packet.request.xhr? || no_reroute)
       obj || false
+    end
+    
+    def params_parse(mode, params)
+      params.each{|k,v| params[k] = nil if(k.to_s =~ /_id$/ && v.blank?)}
+      params
     end
     
     # A callback for the actual new item event
@@ -225,6 +231,7 @@ module Orange
         my_id = opts.delete(:resource_id) || packet['route.resource_id']
         m = opts.delete(:model) || model_class.get(my_id)
         params = opts.with_defaults(opts.delete(:params) || packet.request.params[@my_orange_name.to_s] || {})
+        params = params_parse(:save, params)
         if m
           before = beforeSave(packet, m, params)
           onSave(packet, m, params) if before
