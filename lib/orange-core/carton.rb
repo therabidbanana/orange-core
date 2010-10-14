@@ -51,6 +51,7 @@ module Orange
     
     # Return properties that should be shown for a given context
     def self.form_props(context = :live, mode = :any)
+      self.scaffold_properties ||= []
       self.scaffold_properties.select{|p| should_use?(p, context, mode)  }
     end
     
