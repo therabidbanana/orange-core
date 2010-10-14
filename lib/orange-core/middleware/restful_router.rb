@@ -47,13 +47,13 @@ module Orange::Middleware
       pad = parts.shift
       if !parts.empty?
         resource = parts.shift
-        if orange.loaded?(resource.to_sym) && (!nested_in || orange[nested_in].nests.keys.include?(resource.to_sym))
+        if orange.loaded?(resource.to_sym) && (!nested_in || orange[nested_in, true].nests.keys.include?(resource.to_sym))
           return_parts[:resource] = resource.to_sym
           if !parts.empty?
             second = parts.shift
             if second =~ /^\d+$/
               return_parts[:resource_id] = second
-              if !(parts.empty? || orange[resource.to_sym].nests.keys.include?(parts.first.to_sym))
+              if !(parts.empty? || orange[resource.to_sym, true].nests.keys.include?(parts.first.to_sym))
                 return_parts[:resource_action] = parts.shift.to_sym
               else
                 return_parts[:resource_action] = :show

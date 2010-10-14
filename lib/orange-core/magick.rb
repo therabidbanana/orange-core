@@ -139,6 +139,7 @@ module Orange
   # so this should be used with caution.
   class Ignore
     def blank?; true; end
+    def include?(*args); false; end
     def method_missing(name, *args, &block)
       return self
     end
