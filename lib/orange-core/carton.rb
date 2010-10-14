@@ -181,7 +181,7 @@ module Orange
       opts = args.extract_options!
       relationship_scaffold(name, :has_and_belongs_to_many, opts)
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
-      opts.with_defaults!({:through => Resource})
+      opts.with_defaults!({:through => DataMapper::Resource})
       if args.empty?
         self.has(n, name, opts)
       else
