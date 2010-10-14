@@ -71,7 +71,7 @@ module Orange
           ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
         end
         ret = "<label for=''>#{display_name}</label><br />" + ret if label && !ret.blank?
-        ret = "<#{args[:wrap]}>#{ret}</#{args[:wrap]}>" if args[:wrap_tag]
+        ret = "<#{args[:wrap_tag]}>#{ret}</#{args[:wrap_tag]}>" if args[:wrap_tag]
       else
         case prop[:type]
         when :title
