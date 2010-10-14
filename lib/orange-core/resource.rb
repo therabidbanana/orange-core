@@ -62,6 +62,7 @@ module Orange
     end
     
     def viewable(packet, mode, opts={})
+      self.class.viewable_actions ||= []
       if(self.respond_to?(mode))
         self.__send__(mode, packet, opts)
       elsif(self.class.viewable_actions.include?(mode))
