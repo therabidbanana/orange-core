@@ -51,9 +51,15 @@ module Orange
         when :date
           val.gsub!('"', '&quot;')
           ret = "<input class=\"date\" type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
-        when :belongs_to
+        when :belongs
           vals = Object.const_get(prop[:model_name]).all.inject(""){|string, obj| string += "<option value=\"#{obj.id}\">#{obj.scaffold_name}</option>"}
           ret = "<select name=\"#{model_name}[#{name}]\"><option value=\"\">None</option>#{vals}</select>"
+        when :has_one
+          ret = ""
+        when :has_many
+          ret = ""
+        when :has_and_belongs_to_many
+          ret = ""
         else
           val.gsub!('"', '&quot;')
           ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"

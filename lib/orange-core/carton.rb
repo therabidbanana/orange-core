@@ -140,7 +140,7 @@ module Orange
     
     # Define a helper for belongs_to stuff
     def self.belongs(name, model, opts = {})
-      relationship_scaffold(name, :belongs_to, opts.with_defaults(:model_name => model))
+      relationship_scaffold(name, :belongs, opts.with_defaults(:model_name => model))
       opts = opts.delete_if{|k,v| SCAFFOLD_OPTIONS.include?(k)} # DataMapper doesn't like arbitrary opts
       self.belongs_to(name, model, opts)
     end
