@@ -27,12 +27,13 @@ module Orange
     
     def scaffold_attribute(packet, prop, model_name, *args)
       args = args.extract_options!
-      args.with_defaults!({:packet => packet, :value => '', :label => false, :show => false})
+      args.with_defaults!({:packet => packet, :value => '', :label => false, :show => false, :wrap => true})
       val = args[:value]
       label = args[:label]
       show = args[:show]
       name = prop[:name]
       human_readable_name = name.to_s.split('_').each{|w| w.capitalize!}.join(' ')
+      relationship = prop[:relationship]
       display_name = prop[:display_name] || human_readable_name
       return @scaffold_types[prop[:type]].call(name, val, args.with_defaults!(:display_name => display_name, :model_name => model_name)) if @scaffold_types.has_key?(prop[:type])
       unless show
@@ -57,15 +58,19 @@ module Orange
           ret = "<select name=\"#{model_name}[#{name}_id]\">#{prop[:required] ? '' : '<option value="">None</option>'}#{vals}</select>"
         when :has_one
           ret = ""
+          args[:wrap] = false
         when :has_many
           ret = ""
+          args[:wrap] = false
         when :has_and_belongs_to_many
           ret = ""
+          args[:wrap] = false
         else
           val.gsub!('"', '&quot;')
           ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
         end
         ret = "<label for=''>#{display_name}</label><br />" + ret if label && !ret.blank?
+        ret = "<p>#{ret}</p>" if args[:wrap]
       else
         case prop[:type]
         when :title
