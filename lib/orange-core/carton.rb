@@ -217,7 +217,7 @@ module Orange
     
     def scaffold_name
       titles = self.class.scaffold_properties.select{|p| p[:type] == :title}
-      return __send__(titles.first.name) if(self.respond_to?(titles.first.name))
+      return __send__(titles.first[:name]) if(self.respond_to?(titles.first[:name]))
       return title if(self.respond_to?(:title)) 
       return name if(self.respond_to?(:name))
       return "#{self.class.to_s} ##{id}"
