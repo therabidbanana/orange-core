@@ -6,7 +6,7 @@
       - if(prop[:relationship])
         !~ view_attribute(prop, model_name, :label => true, :value => model.__send__(prop[:name]), :model => model)
       - else
-        %p!~ view_attribute(prop, model_name, :label => true, :value => model.attribute_get(prop[:name]), :model => model)
+        !~ view_attribute(prop, model_name, :label => true, :value => model.attribute_get(prop[:name]), :model => model)
     %input{:type => 'submit', :value => 'Save Changes'}
 - else
   %p Couldn't find the item you're looking for.
