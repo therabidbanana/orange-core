@@ -127,7 +127,7 @@ module Orange
     # @param [Symbol] resource_name The short name of the resource
     # @return [Boolean] result of has_key? in the resources list
     def loaded?(resource_name)
-      @resources.has_key?(resource_name)
+      @resources.has_key?(resource_name) && (!@resources[resource_name].blank?)
     end
     
     # Takes an instance of a Orange::Resource subclass, sets orange
