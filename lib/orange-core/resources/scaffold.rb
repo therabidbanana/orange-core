@@ -54,7 +54,7 @@ module Orange
         when :belongs
           vals = Object.const_get(prop[:related_to]).all
           vals = vals.map{|obj| "<option value=\"#{obj.id}\">#{obj.scaffold_name}</option>"}.join("\n")
-          ret = "<select name=\"#{model_name}[#{name}]\"><option value=\"\">None</option>#{vals}</select>"
+          ret = "<select name=\"#{model_name}[#{name}_id]\"><option value=\"\">None</option>#{vals}</select>"
         when :has_one
           ret = ""
         when :has_many
