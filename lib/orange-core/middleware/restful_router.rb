@@ -88,7 +88,7 @@ module Orange::Middleware
         new_path = parts[:remainder]
         nested = my_parts.last[:resource]
       end
-      my_parts
+      packet['route.route_parts'] = my_parts
     end
     
     def should_route?(packet, parts)
