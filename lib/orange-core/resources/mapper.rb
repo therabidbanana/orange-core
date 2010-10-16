@@ -22,6 +22,7 @@ module Orange
       args.unshift(resource)
       args.unshift(context)
       args.unshift(site)
+      orange.fire(:route_extras, packet, args)
       root_url(packet) + args.compact.join('/')
     end
   end
