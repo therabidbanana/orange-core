@@ -66,6 +66,9 @@ module Orange
         when :has_and_belongs_to_many
           ret = ""
           args[:wrap_tag] = false
+        when :number
+          val = val.to_s
+          ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
         else
           val.gsub!('"', '&quot;')
           ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"

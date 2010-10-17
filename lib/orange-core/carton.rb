@@ -121,6 +121,12 @@ module Orange
       add_scaffold(name, :time, Time, opts)
     end
     
+    
+    # Show in a context if wrapped in one of the helpers
+    def self.number(name, opts = {})
+      add_scaffold(name, :number, Float, opts)
+    end
+    
     # Define a helper for fulltext type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.fulltext(name, opts = {})
