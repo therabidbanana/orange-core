@@ -68,7 +68,7 @@ module Orange
           args[:wrap_tag] = false
         when :number
           val = val.to_s
-          ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
+          ret = "<input class=\"number\" type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\"  />"
         else
           val.gsub!('"', '&quot;')
           ret = "<input type=\"text\" value=\"#{val}\" name=\"#{model_name}[#{name}]\" />"
