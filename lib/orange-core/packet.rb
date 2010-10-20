@@ -1,3 +1,5 @@
+require 'tilt'
+
 module Orange
   # Orange::Packet is a wrapper for Rack's basic env variable. 
   # It acts somewhat like Rack::Request, except with more functionality.
@@ -18,6 +20,9 @@ module Orange
   class Packet
     # By default, header will be content-type
     DEFAULT_HEADERS = {"Content-Type" => 'text/html'} unless defined?(DEFAULT_HEADERS)
+    
+    # Tilt support
+    include Tilt::CompileSite
     
     # We override the instantiation to only create one packet per env
     # @param [Orange::Core] orange a pointer to the orange core

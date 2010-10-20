@@ -87,8 +87,8 @@ module Orange
     # @param [optional, Array] args the args array
     # @return [String] haml parsed string to be placed in packet[:content] by #route
     def do_view(packet, mode, *args)
-      haml_opts = view_opts(packet, mode, *args)
-      orange[:parser].haml("#{mode.to_s}.haml", packet, haml_opts)
+      tilt_opts = view_opts(packet, mode, *args)
+      orange[:parser].tilt(mode.to_s, packet, tilt_opts)
     end
     
     

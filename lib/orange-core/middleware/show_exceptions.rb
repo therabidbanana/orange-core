@@ -41,7 +41,7 @@ module Orange::Middleware
     
     def error_page(env)
       packet = Orange::Packet.new(@core, env)
-      parse = orange[:parser].haml("500.haml", packet, :template => true)
+      parse = orange[:parser].tilt("500", packet, :template => true)
       [parse]
     end
 
@@ -77,7 +77,8 @@ module Orange::Middleware
       env["rack.errors"].puts exception.backtrace.map { |l| "\t" + l }
       env["rack.errors"].flush
       orange_env = env["orange.env"]
-      parse = orange[:parser].haml("exceptions.haml", binding, :template => true)
+      
+      parse = orange[:parser].tilt("exceptions", self, :template => true, :exception => exception, :env => env, :orange_env => orange_env, :path => path, :frames => frames, :req => req)
       [parse]
     end
 

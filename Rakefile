@@ -26,6 +26,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.test_files = FileList['spec/**/*.rb']
   gemspec.add_dependency('rack', '>= 1.0.1')
   gemspec.add_dependency('haml', '>= 2.2.13')
+  gemspec.add_dependency('tilt', '~> 1.1')
   gemspec.add_dependency('crack', ">= 0")
   gemspec.add_dependency('dm-core', '>= 1.0.0')
   gemspec.add_dependency('dm-migrations', '>= 1.0.0')

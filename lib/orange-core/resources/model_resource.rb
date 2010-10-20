@@ -101,8 +101,8 @@ module Orange
     # @param [optional, Array] args the args array
     # @return [String] haml parsed string to be placed in packet[:content] by #route
     def do_view(packet, mode, *args)
-      haml_opts = view_opts(packet, mode, false, *args)
-      orange[:parser].haml("#{mode.to_s}.haml", packet, haml_opts)
+      tilt_opts = view_opts(packet, mode, false, *args)
+      orange[:parser].tilt(mode.to_s, packet, tilt_opts)
     end
     
     # Renders a view, with all options set for haml to access. Same as do_view, but
@@ -112,8 +112,8 @@ module Orange
     # @param [optional, Array] args the args array
     # @return [String] haml parsed string to be placed in packet[:content] by #route
     def do_list_view(packet, mode, *args)
-      haml_opts = view_opts(packet, mode, true, *args)
-      orange[:parser].haml("#{mode.to_s}.haml", packet, haml_opts)
+      tilt_opts = view_opts(packet, mode, true, *args)
+      orange[:parser].tilt(mode.to_s, packet, tilt_opts)
     end
     
     # Returns the options for including in template rendering. All keys passed in the args array

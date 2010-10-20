@@ -1,0 +1,11 @@
+!!! 5
+%html
+  %head
+    %title This is an Orange Site
+    /[if IE]
+      %script{:src => "http://html5shiv.googlecode.com/svn/trunk/html5.js"}
+    %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"}
+    = part[:css]
+    = part[:js]
+  %body
+    = yield
