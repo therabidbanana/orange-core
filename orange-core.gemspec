@@ -5,11 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{orange-core}
+<<<<<<< HEAD
   s.version = "0.7.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Haslem"]
   s.date = %q{2010-10-27}
+=======
+  s.version = "0.8.0"
+
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.authors = ["David Haslem"]
+  s.date = %q{2010-10-20}
+>>>>>>> Fix up gemspec
   s.description = %q{Orange is a Ruby framework for building managed websites with code as simple as Sinatra}
   s.email = %q{david@orangesparkleball.com}
   s.extra_rdoc_files = [
@@ -51,6 +59,7 @@ Gem::Specification.new do |s|
      "lib/orange-core/stack.rb",
      "lib/orange-core/templates/500.haml",
      "lib/orange-core/templates/exceptions.haml",
+     "lib/orange-core/templates/layout.haml",
      "lib/orange-core/views/default_resource/create.haml",
      "lib/orange-core/views/default_resource/edit.haml",
      "lib/orange-core/views/default_resource/list.haml",
@@ -121,6 +130,7 @@ orange-core install complete.
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rack>, [">= 1.0.1"])
       s.add_runtime_dependency(%q<haml>, [">= 2.2.13"])
+      s.add_runtime_dependency(%q<tilt>, ["~> 1.1"])
       s.add_runtime_dependency(%q<crack>, [">= 0"])
       s.add_runtime_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<dm-migrations>, [">= 1.0.0"])
@@ -129,6 +139,7 @@ orange-core install complete.
     else
       s.add_dependency(%q<rack>, [">= 1.0.1"])
       s.add_dependency(%q<haml>, [">= 2.2.13"])
+      s.add_dependency(%q<tilt>, ["~> 1.1"])
       s.add_dependency(%q<crack>, [">= 0"])
       s.add_dependency(%q<dm-core>, [">= 1.0.0"])
       s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
@@ -138,6 +149,7 @@ orange-core install complete.
   else
     s.add_dependency(%q<rack>, [">= 1.0.1"])
     s.add_dependency(%q<haml>, [">= 2.2.13"])
+    s.add_dependency(%q<tilt>, ["~> 1.1"])
     s.add_dependency(%q<crack>, [">= 0"])
     s.add_dependency(%q<dm-core>, [">= 1.0.0"])
     s.add_dependency(%q<dm-migrations>, [">= 1.0.0"])
