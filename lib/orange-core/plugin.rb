@@ -19,6 +19,7 @@ module Orange::Plugins
     cattr_accessor :resources
     cattr_accessor :views
     cattr_accessor :templates
+    cattr_accessor :template_type
     
     # Adds a single prerouting middleware class to list of prerouting middleware
     def self.prerouter(r)
@@ -97,6 +98,10 @@ module Orange::Plugins
       self.templates = arg
     end
     
+    def self.template_ext(arg)
+      self.template_type = arg
+    end
+    
     def self.views_dir(arg)
       self.views = arg
     end
@@ -148,6 +153,10 @@ module Orange::Plugins
     
     def templates
       self.class.templates
+    end
+    
+    def template_type
+      self.class.template_type || "erb"
     end
     
     def has_templates?

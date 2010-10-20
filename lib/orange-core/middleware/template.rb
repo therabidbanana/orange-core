@@ -30,7 +30,7 @@ module Orange::Middleware
     def wrap(packet, content = false)
       content = packet.content unless content
       content = content.join
-      content = orange[:parser].haml(packet['template.file'], packet, :wrapped_content => content, :template => true) do 
+      content = orange[:parser].tilt(packet['template.file'], packet, :wrapped_content => content, :template => true) do 
         content
       end
       [content]
@@ -40,15 +40,15 @@ end
 
 module Orange::Pulp::Template
   def wrap
-    packet[:content] = orange[:parser].haml(packet['template.file'], packet, :wrapped_content => packet[:content], :template => true) do
+    packet[:content] = orange[:parser].tilt(packet['template.file'], packet, :wrapped_content => packet[:content], :template => true) do
       content
     end
   end
   def template(name)
-    name = name.to_s if name.kind_of?(Symbol)
-    name = name + ".haml" unless name =~ /\.haml$/
+    name = orange[:parser].view_name(self, name)
     packet['template.file'] == name
   end
+  
   def layout(name)
     template(name)
   end
@@ -56,7 +56,7 @@ end
 
 module Orange::Mixins::Template
   def template_for(packet)
-    template_chooser.call(packet)
+    template_chooser.call(packet) || 'layout'
   end
   def template_chooser(&block)
     if block_given?
