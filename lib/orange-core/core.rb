@@ -162,6 +162,15 @@ module Orange
       @resources[name] = resource.set_orange(self, name)
     end
     
+    
+    # Automatically load and require resources, cartons, and middleware
+    def autoload!
+      Dir.glob(File.join('cartons', '*.rb')).each { |f|  require f }
+      Dir.glob(File.join('resources', '*.rb')).each { |f| require f }
+      Dir.glob(File.join('middleware', '*.rb')).each { |f|  require f }
+    end
+    
+    
     # Takes an instance of Orange::Middleware::Base subclass and
     # keeps it for later. This way we can provide introspection into the 
     # middleware instances (useful for calling stack_init on them)
