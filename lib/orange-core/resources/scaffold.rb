@@ -18,7 +18,7 @@ module Orange
         else
           ret = "<input type='hidden' name='#{opts[:model_name]}[#{name}]' value='0' /><input type='checkbox' name='#{opts[:model_name]}[#{name}]' value='1' #{'checked="checked"' if (val && val != '')}/>"
           ret = "<label for=''>#{opts[:display_name]}</label><br />" + ret if opts[:label]
-          ret = "<#{args[:wrap_tag]}>#{ret}</#{args[:wrap_tag]}>" if args[:wrap_tag]
+          ret = "<#{args[:wrap_tag]}>#{ret}</#{args[:wrap_tag]}>" if opts[:wrap_tag]
         end
       end
     end
