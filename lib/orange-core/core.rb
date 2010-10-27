@@ -40,6 +40,13 @@ module Orange
     Packet.mixin inc
   end
   
+  # Automatically load and require resources, cartons, and middleware
+  def self.autoload!
+    Dir.glob(File.join('cartons', '*.rb')).each { |f|  require f }
+    Dir.glob(File.join('resources', '*.rb')).each { |f| require f }
+    Dir.glob(File.join('middleware', '*.rb')).each { |f|  require f }
+  end
+  
   # Core is one of two main sources of interaction for Orange Applications
   # 
   # All portions of Orange based code have access to the Core upon
@@ -162,13 +169,6 @@ module Orange
       @resources[name] = resource.set_orange(self, name)
     end
     
-    
-    # Automatically load and require resources, cartons, and middleware
-    def autoload!
-      Dir.glob(File.join('cartons', '*.rb')).each { |f|  require f }
-      Dir.glob(File.join('resources', '*.rb')).each { |f| require f }
-      Dir.glob(File.join('middleware', '*.rb')).each { |f|  require f }
-    end
     
     
     # Takes an instance of Orange::Middleware::Base subclass and
