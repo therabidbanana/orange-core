@@ -133,16 +133,6 @@ module Orange
       orange.plugins.each{|p| p.middleware(:prerouting).each{|m| stack m, opts.dup} if p.has_middleware?}
     end
     
-    # Automatically load and require resources, cartons, and middleware
-    def autoload!
-      Dir.glob(File.join(orange.app_dir, 'resources', '*.rb')).each do |f| 
-        require f 
-        orange.load Orange::Inflector.constantize(Orange::Inflector.camelize(File.basename(f, '.rb'))).new
-      end
-      Dir.glob(File.join(orange.app_dir, 'cartons', '*.rb')).each { |f|  require f }
-      Dir.glob(File.join(orange.app_dir, 'middleware', '*.rb')).each { |f|  require f }
-    end
-    
     # A shortcut for routing via Orange::Middleware::RestfulRouter and any plugins
     #
     # Any args are passed on to the middleware
