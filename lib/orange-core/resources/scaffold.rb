@@ -12,11 +12,13 @@ module Orange
       end
       @scaffold_types = {}
       add_scaffold_type(:boolean) do |name, val, opts|
+        opts = opts.with_defaults({:wrap_tag => 'p'})
         if opts[:show]
           val ? "true" : "false"
         else
           ret = "<input type='hidden' name='#{opts[:model_name]}[#{name}]' value='0' /><input type='checkbox' name='#{opts[:model_name]}[#{name}]' value='1' #{'checked="checked"' if (val && val != '')}/>"
           ret = "<label for=''>#{opts[:display_name]}</label><br />" + ret if opts[:label]
+          ret = "<#{args[:wrap_tag]}>#{ret}</#{args[:wrap_tag]}>" if args[:wrap_tag]
         end
       end
     end
@@ -78,7 +80,7 @@ module Orange
       else
         case prop[:type]
         when :title
-          ret = "<h3 class='#{model_name}-#{name}'>#{val}</h3>"
+          ret = "<h1 class='#{model_name}-#{name}'>#{val}</h3>"
         when :text
           ret = "<p class='#{model_name}-#{name}'>#{val}</p>"
         when :fulltext

@@ -36,19 +36,19 @@ Should I Use Orange?
 
 Sinatra is probably better for this kind of thing. It's perfect for creating quick web apps based on RESTful
 ideals. Or perhaps use a Sinatra clone built on Orange, so you can incorporate orange plugins and built in 
-database support... but such a clone doesn't exist [does it](http://github.com/therabidbanana/orange-juice)?
+database support... But [orange-juice](http://github.com/therabidbanana/orange-juice) was written for orange 0.5, so it's a bit behind. Hopefully it will be updated soon.
 
     "I want to create a powerful web application that needs to be rock solid and use a 
     well-tested foundation"
 
-No. This is where Ruby on Rails shines, it's a well supported, thoroughly tested framework
+This is where Ruby on Rails shines, it's a well supported, thoroughly tested framework
 for building web applications that gives you everything you need for the lifecycle of your
-application
+application.
 
     "I want to deploy a website on Ruby that has some dynamic elements, maybe allowing me
     to create my own plugin without jumping through too many hoops."
     
-Yes. This is what orange was designed for - we're building it to be able to quickly deploy
+This is what orange was designed for - we're building it to be able to quickly deploy
 websites that can have a Ruby base without the heavy-weight Ruby on Rails backend, but also 
 without feeling like you have to start from scratch like it feels in Sinatra.
 
@@ -60,6 +60,7 @@ orange-core tries to stay light on the dependencies.
 
 * dm-core (+ dm-[sqlite3|mysql|...]-adapter )
 * dm-migrations
+* tilt
 * rack
 * haml
 * crack

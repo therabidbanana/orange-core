@@ -22,7 +22,7 @@ module Orange
   # class and just include DataMapper::Resource. All carton methods are to
   # improve scaffolding capability.
   class Carton
-    SCAFFOLD_OPTIONS = [:display_name, :levels, :related_to] unless defined?(SCAFFOLD_OPTIONS)
+    SCAFFOLD_OPTIONS = [:display_name, :levels, :related_to, :wrap_tag] unless defined?(SCAFFOLD_OPTIONS)
     extend ClassInheritableAttributes
     cattr_accessor :scaffold_properties
     
