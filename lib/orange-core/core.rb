@@ -45,6 +45,11 @@ module Orange
     Dir.glob(File.join('cartons', '*.rb')).each { |f|  require f }
     Dir.glob(File.join('resources', '*.rb')).each { |f| require f }
     Dir.glob(File.join('middleware', '*.rb')).each { |f|  require f }
+    @required = true
+  end
+  
+  def self.autoloaded?
+    @required || false
   end
   
   # Core is one of two main sources of interaction for Orange Applications

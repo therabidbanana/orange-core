@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/orange-core/middleware/database.rb",
      "lib/orange-core/middleware/four_oh_four.rb",
      "lib/orange-core/middleware/globals.rb",
+     "lib/orange-core/middleware/loader.rb",
      "lib/orange-core/middleware/rerouter.rb",
      "lib/orange-core/middleware/restful_router.rb",
      "lib/orange-core/middleware/root_dir.rb",
