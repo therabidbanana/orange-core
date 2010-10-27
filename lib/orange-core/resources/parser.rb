@@ -66,9 +66,11 @@ module Orange
         end unless string
       
         # Check for default resource views
+        string ||= read_if_exists('views', 'default_resource', context+"."+file) if context
         string ||= read_if_exists('views', 'default_resource', file)
         @view_dirs.reverse_each do |views_dir|
-          string ||= read_if_exists(views_dir, 'default_resource', file) if resource
+          string ||= read_if_exists(views_dir, 'default_resource', context+"."+file) if context
+          string ||= read_if_exists(views_dir, 'default_resource', file)
         end unless string
         raise LoadError, "Couldn't find haml file '#{file}'" unless string
         
