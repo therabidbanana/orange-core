@@ -123,6 +123,7 @@ module Orange
     def prerouting(*args)
       opts = args.extract_options!
       stack Orange::Middleware::Globals
+      stack Orange::Middleware::Loader
       stack Orange::Middleware::Rerouter, opts.dup
       stack Orange::Middleware::Static, opts.dup
       stack Orange::Middleware::AbstractFormat unless opts[:no_abstract_format] 
