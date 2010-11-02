@@ -10,7 +10,7 @@ us know.
 
 orange-core represents the core dependencies for orange applications. If you want
 a full featured Orange-based CMS (where the automatic admin interface comes in), 
-look at [orange-sparkles](http://github.com/orange-project/orange-sparkles).
+look at [orange-sparkles](http://github.com/orange-project/orange-sparkles). 
 
 **Note**: Orange is still in a "beta" stage. Test coverage is lack-luster at best. The library is being used on a few currently live (low traffic) sites, so it might be stable enough to use on your own projects let us know if you have issues.
 
