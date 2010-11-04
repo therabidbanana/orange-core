@@ -81,8 +81,13 @@ module Orange
     
     # Adds Orange-aware middleware using the Rack::Builder#use method, adding
     # the orange core to the args passed on
+    #
+    # Orange Middleware can require non-Orange Middleware with 
+    # #pre_use and #post_use class methods 
     def stack(middleware, *args, &block)
+      middleware.pre_use(@build, *args, &block) if(middleware.respond_to?(:pre_use))
       @build.use(middleware, @core, *args, &block)
+      middleware.post_use(@build, *args, &block) if(middleware.respond_to?(:post_use))
     end
     
     # Set the auto_reload option, called without args, defaults to true,
