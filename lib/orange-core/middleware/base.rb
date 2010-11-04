@@ -79,7 +79,8 @@ module Orange::Middleware
     def recapture(response, packet)
       packet[:status]  = response[0]
       packet[:headers] = response[1]
-      packet[:content] = response[2].first
+      packet[:content] = response[2].kind_of?(Rack::Response) ? response[2].body.first : response[2].first
+      packet[:content] ||= ""
       response
     end
     
