@@ -85,9 +85,9 @@ module Orange
     # Orange Middleware can require non-Orange Middleware with 
     # #pre_use and #post_use class methods 
     def stack(middleware, *args, &block)
-      middleware.pre_use(@build, *args, &block) if(middleware.respond_to?(:pre_use))
+      middleware.pre_use(self, *args, &block) if(middleware.respond_to?(:pre_use))
       @build.use(middleware, @core, *args, &block)
-      middleware.post_use(@build, *args, &block) if(middleware.respond_to?(:post_use))
+      middleware.post_use(self, *args, &block) if(middleware.respond_to?(:post_use))
     end
     
     # Set the auto_reload option, called without args, defaults to true,
