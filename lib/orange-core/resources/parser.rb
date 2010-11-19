@@ -32,10 +32,6 @@ module Orange
       opts.merge :orange => orange
       if packet_binding.is_a? Orange::Packet
         context = packet_binding['route.context'].to_s
-        unless temp
-          packet_binding['parser.haml-templates'] ||= {}
-          haml_engine = packet_binding['parser.haml-templates']["#{context}-#{resource}-#{file}"] || false
-        end
       end
       unless haml_engine
       
@@ -75,9 +71,6 @@ module Orange
         raise LoadError, "Couldn't find haml file '#{file}'" unless string
         
         haml_engine = Haml::Engine.new(string)
-        if packet_binding.is_a? Orange::Packet
-          packet_binding['parser.haml-templates', {}]["#{context}-#{resource}-#{file}"] = haml_engine
-        end
       end
       opts[:opts] = opts.dup
       out = haml_engine.render(packet_binding, opts, &block)
