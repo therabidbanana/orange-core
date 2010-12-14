@@ -33,47 +33,45 @@ module Orange
       if packet_binding.is_a? Orange::Packet
         context = packet_binding['route.context'].to_s
       end
-      unless haml_engine
         
-        string = false
-        string ||= read_if_exists(file)
-        
-        if temp
-          string ||= read_if_exists('templates', file) 
-          @template_dirs.reverse_each do |templates_dir|
-            string ||= read_if_exists(templates_dir, file)
-          end unless string
-        end
-        
-        if context
-          #Check for context specific overrides
-          string ||= read_if_exists('views', resource, context+"."+file) if resource
-          string ||= read_if_exists('views', context+"."+file) unless resource
-          @view_dirs.reverse_each do |views_dir|
-            string ||= read_if_exists(views_dir, resource, context+"."+file) if resource
-            string ||= read_if_exists(views_dir, context+"."+file) unless resource
-          end unless string
-        end
+      string = false
+      string ||= read_if_exists(file)
       
-        # Check for standard views
-        string ||= read_if_exists('views', resource, file) if resource
-        string ||= read_if_exists('views', file) unless resource
-        @view_dirs.reverse_each do |views_dir|
-          string ||= read_if_exists(views_dir, resource, file) if resource
-          string ||= read_if_exists(views_dir, file) unless resource
+      if temp
+        string ||= read_if_exists('templates', file) 
+        @template_dirs.reverse_each do |templates_dir|
+          string ||= read_if_exists(templates_dir, file)
         end unless string
-      
-        # Check for default resource views
-        string ||= read_if_exists('views', 'default_resource', context+"."+file) if context
-        string ||= read_if_exists('views', 'default_resource', file)
-        @view_dirs.reverse_each do |views_dir|
-          string ||= read_if_exists(views_dir, 'default_resource', context+"."+file) if context
-          string ||= read_if_exists(views_dir, 'default_resource', file)
-        end unless string
-        raise LoadError, "Couldn't find haml file '#{file}'" unless string
-        
-        haml_engine = Haml::Engine.new(string)
       end
+      
+      if context
+        #Check for context specific overrides
+        string ||= read_if_exists('views', resource, context+"."+file) if resource
+        string ||= read_if_exists('views', context+"."+file) unless resource
+        @view_dirs.reverse_each do |views_dir|
+          string ||= read_if_exists(views_dir, resource, context+"."+file) if resource
+          string ||= read_if_exists(views_dir, context+"."+file) unless resource
+        end unless string
+      end
+    
+      # Check for standard views
+      string ||= read_if_exists('views', resource, file) if resource
+      string ||= read_if_exists('views', file) unless resource
+      @view_dirs.reverse_each do |views_dir|
+        string ||= read_if_exists(views_dir, resource, file) if resource
+        string ||= read_if_exists(views_dir, file) unless resource
+      end unless string
+    
+      # Check for default resource views
+      string ||= read_if_exists('views', 'default_resource', context+"."+file) if context
+      string ||= read_if_exists('views', 'default_resource', file)
+      @view_dirs.reverse_each do |views_dir|
+        string ||= read_if_exists(views_dir, 'default_resource', context+"."+file) if context
+        string ||= read_if_exists(views_dir, 'default_resource', file)
+      end unless string
+      raise LoadError, "Couldn't find haml file '#{file}'" unless string
+      
+      haml_engine = Haml::Engine.new(string)
       opts[:opts] = opts.dup
       out = haml_engine.render(packet_binding, opts, &block)
     end
