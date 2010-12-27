@@ -19,7 +19,10 @@ class MockResourceTwo < Orange::Resource
   end
 end
 
-class MockHamlParser < Orange::Resource
+class MockParser < Orange::Resource
+  def tilt(template, packet, opts)
+    [template, packet, opts]
+  end
   def haml(template, packet, opts)
     [template, packet, opts]
   end

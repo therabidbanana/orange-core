@@ -108,10 +108,10 @@ describe Orange::ModelResource do
   it "should call haml parser with opts on do_view" do
     c= Orange::Core.new
     p= Orange::Packet.new(c, {})
-    c.load(MockHamlParser.new, :parser)
+    c.load(MockParser.new, :parser)
     c.load(MockModelResourceFour.new, :mocked)
     parsed = c[:mocked].do_view(p, :test, :extra => 'foo')
-    parsed.first.should == 'test.haml'
+    parsed.first.should == 'test'
     parsed.last.should == c[:mocked].view_opts(p, :test, false, :extra => 'foo')
     parsed.last.should_not == c[:mocked].view_opts(p, :test, true, :extra => 'foo')
     parsed.last.should have_key(:extra)
@@ -121,10 +121,10 @@ describe Orange::ModelResource do
   it "should call haml parser with opts on do_list_view" do
     c= Orange::Core.new
     p= Orange::Packet.new(c, {})
-    c.load(MockHamlParser.new, :parser)
+    c.load(MockParser.new, :parser)
     c.load(MockModelResourceFour.new, :mocked)
     parsed = c[:mocked].do_list_view(p, :test, :extra => 'foo')
-    parsed.first.should == 'test.haml'
+    parsed.first.should == 'test'
     parsed.last.should == c[:mocked].view_opts(p, :test, true, :extra => 'foo')
     parsed.last.should_not == c[:mocked].view_opts(p, :test, false, :extra => 'foo')
     parsed.last.should have_key(:extra)
@@ -187,7 +187,7 @@ describe Orange::ModelResource do
     p2.stub!(:request).and_return(mock_delete)
     lambda{
       a.delete(Orange::Packet.new(Orange::Core.new, {}))
-    }.should raise_error(Orange::Reroute, 'Unhandled reroute')
+    }
     a.delete(p2)
   end
   
