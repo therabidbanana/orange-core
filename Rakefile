@@ -1,17 +1,16 @@
 require 'rake/clean'
 require 'spec/stats.rb'
+
 begin
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
 rescue LoadError
-  puts 'To use rspec for testing you must install rspec gem:'
-  puts '$ sudo gem install rspec'
-  exit
+  puts "(No rspec)"
 end
 
 begin
   require 'jeweler'
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install jeweler"
+  puts "(No jeweler)"
 end
 
 
@@ -82,14 +81,14 @@ task :show_cov do
 end
 
 desc "Run the specs under spec"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = ['--options', "spec/spec.opts"]
-  t.spec_files = FileList['spec/**/*_spec.rb']
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = %w[--require spec/orange-core/spec_helper.rb --colour --format progress]
+  t.pattern = 'spec/**/*_spec.rb'
 end
 
 desc "Run all specs with RCov"
-Spec::Rake::SpecTask.new('specs_with_rcov') do |t|
-  t.spec_files = FileList['spec/**/*.rb']
+RSpec::Core::RakeTask.new('specs_with_rcov') do |t|
+  t.pattern = 'spec/**/*_spec.rb'
   t.rcov = true
   t.rcov_opts = ['--exclude', 'spec,1.8/gems,1.9/gems']
 end

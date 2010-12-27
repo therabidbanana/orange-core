@@ -19,7 +19,7 @@ require 'dm-sqlite-adapter'
 DataMapper.setup(:default, "sqlite::memory:")
 
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include(Rack::Test::Methods)
 end
 
