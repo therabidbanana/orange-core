@@ -203,7 +203,7 @@ module Orange
       no_reroute = opts.delete(:no_reroute)
       if packet.request.delete? || !opts.blank?
         id = opts.delete(:resource_id) || packet['route.resource_id']
-        m = model_class.get(packet['route.resource_id'])
+        m = opts.delete(:model) || model_class.get(id)
         before = beforeDelete(packet, m, opts)
         onDelete(packet, m, opts) if m && before
         afterDelete(packet, m, opts) if before
