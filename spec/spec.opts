@@ -1,1 +1,0 @@
---require spec/orange-core/spec_helper.rb --colour --format specdoc
