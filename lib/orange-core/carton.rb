@@ -100,6 +100,7 @@ module Orange
     # Define a helper for title type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.title(name, opts = {})
+      opts = {:length => 255}.merge(opts)
       add_scaffold(name, :title, String, opts)
     end
     
@@ -142,6 +143,7 @@ module Orange
     # Define a helper for input type="text" type database stuff
     # Show in a context if wrapped in one of the helpers
     def self.text(name, opts = {})
+      opts = {:length => 255}.merge(opts)
       add_scaffold(name, :text, String, opts)
     end
     
