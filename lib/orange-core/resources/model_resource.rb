@@ -167,6 +167,7 @@ module Orange
         before = beforeNew(packet, params)
         obj = onNew(packet, params) if before
         afterNew(packet, obj, params) if before
+        obj.raise_on_save_failure if obj
         obj.save if obj && before
       end
       packet.reroute(@my_orange_name, :orange) unless (packet.request.xhr? || no_reroute)
@@ -205,6 +206,7 @@ module Orange
         id = opts.delete(:resource_id) || packet['route.resource_id']
         m = opts.delete(:model) || model_class.get(id)
         before = beforeDelete(packet, m, opts)
+        m.raise_on_save_failure if m
         onDelete(packet, m, opts) if m && before
         afterDelete(packet, m, opts) if before
         orange.fire(:model_resource_deleted, packet, {:resource_id => id, :resource => @my_orange_name})
@@ -235,6 +237,7 @@ module Orange
         params = params_parse(packet, :save, params)
         if m
           before = beforeSave(packet, m, params)
+          m.raise_on_save_failure if before
           onSave(packet, m, params) if before
           afterSave(packet, m, params) if before
         end
