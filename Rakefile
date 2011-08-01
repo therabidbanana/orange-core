@@ -28,6 +28,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.add_dependency('haml', '~> 2.2.0')
   gemspec.add_dependency('crack', ">= 0")
   gemspec.add_dependency('dm-core', '~> 1.0')
+  gemspec.add_dependency('extlib', '~> 0.9')
   gemspec.add_dependency('dm-migrations', '~> 1.0')
   gemspec.add_development_dependency "rspec", ">= 0"
   gemspec.add_development_dependency "rack-test", ">= 0"
